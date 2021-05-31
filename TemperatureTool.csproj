@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A9CF91C6-619F-45CA-B114-85CFA28C0685}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>TemperatureTool</RootNamespace>
+    <AssemblyName>TemperatureTool</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AdvancedDataGridView">
+      <HintPath>DataGridView\AdvancedDataGridView.dll</HintPath>
+    </Reference>
+    <Reference Include="ChoETL, Version=1.2.1.16, Culture=neutral, PublicKeyToken=8138733ed69d3172, processorArchitecture=MSIL">
+      <HintPath>packages\ChoETL.1.2.1.16\lib\net45\ChoETL.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TimeZoneConverter, Version=3.4.0.0, Culture=neutral, PublicKeyToken=e20ab7d0d9479841, processorArchitecture=MSIL">
+      <HintPath>packages\TimeZoneConverter.3.4.0\lib\net45\TimeZoneConverter.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiClients\Abstract\ApiClientAbstract.cs" />
+    <Compile Include="ApiClients\Abstract\TemperatureClientAbstract.cs" />
+    <Compile Include="ApiClients\Actions\ClientActions.cs" />
+    <Compile Include="ApiClients\Actions\ErrorInfo.cs" />
+    <Compile Include="ApiClients\Actions\ExportActions.cs" />
+    <Compile Include="ApiClients\Actions\LoginActions.cs" />
+    <Compile Include="ApiClients\Actions\UserActions.cs" />
+    <Compile Include="ApiClients\ApiClient.cs" />
+    <Compile Include="ApiClients\Config\ApiConfig.cs" />
+    <Compile Include="ApiClients\Enums\ApiMethod.cs" />
+    <Compile Include="ApiClients\Interfaces\IApiClient.cs" />
+    <Compile Include="ApiClients\Interfaces\ITemperatureClient.cs" />
+    <Compile Include="ApiClients\TemperatureClient.cs" />
+    <Compile Include="ApiClients\Actions\TokenDataContract.cs" />
+    <Compile Include="ApiClients\Utilitiess\DateUtil.cs" />
+    <Compile Include="ApiClients\Utilitiess\EncryptUtil.cs" />
+    <Compile Include="ApiClients\Utilitiess\EndPoints.cs" />
+    <Compile Include="ApiClients\Utilitiess\EnvironmentContext.cs" />
+    <Compile Include="ApiClients\Utilitiess\ExportUtils.cs" />
+    <Compile Include="ApiClients\Utilitiess\ExtensionMethods.cs" />
+    <Compile Include="Models\DataExport.cs" />
+    <Compile Include="Models\DataExportCollection.cs" />
+    <Compile Include="Models\FileExport.cs" />
+    <Compile Include="Utilities\ClassUtils.cs" />
+    <Compile Include="Utilities\CSVUtils.cs" />
+    <Compile Include="Utilities\Utils.cs" />
+    <Compile Include="Bussiness\UserBusiness.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\ClientCollection.cs" />
+    <Compile Include="Models\UserInfo.cs" />
+    <Compile Include="SearchingHistories.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchingHistories.Designer.cs">
+      <DependentUpon>SearchingHistories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TemperatureSystem.cs" />
+    <Compile Include="UCDataExtraction.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCDataExtraction.Designer.cs">
+      <DependentUpon>UCDataExtraction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\PagesCollection.cs" />
+    <Compile Include="UC\UCPaging.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UCPaging.designer.cs">
+      <DependentUpon>UCPaging.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HistoriesCollection.cs" />
+    <Compile Include="Bussiness\CSVExportBusiness.cs" />
+    <Compile Include="Utilities\LogUtils.cs" />
+    <Compile Include="DataExtraction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataExtraction.Designer.cs">
+      <DependentUpon>DataExtraction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Users\ChangePassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Users\ChangePassword.Designer.cs">
+      <DependentUpon>ChangePassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Users\AddUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Users\AddUser.Designer.cs">
+      <DependentUpon>AddUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Users\UserManagement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Users\UserManagement.Designer.cs">
+      <DependentUpon>UserManagement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TemperatureToolMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TemperatureToolMain.Designer.cs">
+      <DependentUpon>TemperatureToolMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\SystemUtils.cs" />
+    <EmbeddedResource Include="SearchingHistories.resx">
+      <DependentUpon>SearchingHistories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCDataExtraction.resx">
+      <DependentUpon>UCDataExtraction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UCPaging.resx">
+      <DependentUpon>UCPaging.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataExtraction.resx">
+      <DependentUpon>DataExtraction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TemperatureToolMain.resx">
+      <DependentUpon>TemperatureToolMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Users\ChangePassword.resx">
+      <DependentUpon>ChangePassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Users\AddUser.resx">
+      <DependentUpon>AddUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Users\UserManagement.resx">
+      <DependentUpon>UserManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

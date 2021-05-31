@@ -1,0 +1,64 @@
+﻿namespace TemperatureTool
+{
+    partial class DataExtraction
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.ucDataExtraction1 = new TemperatureTool.UCDataExtraction();
+            this.SuspendLayout();
+            // 
+            // ucDataExtraction1
+            // 
+            this.ucDataExtraction1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.ucDataExtraction1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucDataExtraction1.Location = new System.Drawing.Point(0, 0);
+            this.ucDataExtraction1.Name = "ucDataExtraction1";
+            this.ucDataExtraction1.Size = new System.Drawing.Size(984, 543);
+            this.ucDataExtraction1.TabIndex = 0;
+            // 
+            // DataExtraction
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(984, 543);
+            this.Controls.Add(this.ucDataExtraction1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.Name = "DataExtraction";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "わたしの温度 データ抽出ツール";
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private UCDataExtraction ucDataExtraction1;
+
+        public System.ComponentModel.IContainer Components { get => components; set => components = value; }
+    }
+}
