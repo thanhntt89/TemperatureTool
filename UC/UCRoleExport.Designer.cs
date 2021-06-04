@@ -35,8 +35,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "UCRoleExport";
-            this.Size = new System.Drawing.Size(362, 41);
-            this.Load += new System.EventHandler(this.UCRoleExport_Load);
+            this.Size = new System.Drawing.Size(239, 40);
             this.ResumeLayout(false);
 
         }

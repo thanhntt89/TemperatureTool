@@ -40,7 +40,7 @@ namespace TemperatureTool.ApiClients.Actions
             public string RoleName { get; set; }
         }
 
-        public class Roles
+        public class RolesCollection
         {
             private static List<Role> UserRoles;
 

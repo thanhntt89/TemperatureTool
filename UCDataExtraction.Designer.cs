@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.bntBrower = new System.Windows.Forms.Button();
             this.txtFolderOutPut = new System.Windows.Forms.TextBox();
@@ -50,6 +50,11 @@
             this.rdBatchOutPut = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dtgRoleSearch = new System.Windows.Forms.DataGridView();
+            this.colRoleName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIsAnd = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colIsVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colRoleId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnClearResult = new System.Windows.Forms.Button();
             this.btnHistories = new System.Windows.Forms.Button();
             this.btnClearCondition = new System.Windows.Forms.Button();
@@ -69,11 +74,6 @@
             this.colSecureLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSaveDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblRowTotal = new System.Windows.Forms.Label();
-            this.colRoleName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colIsAnd = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colIsVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colRoleId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ucPaging = new TemperatureTool.UC.UCPaging();
             this.ucRoleExport = new TemperatureTool.UC.UCRoleExport();
             this.groupBox1.SuspendLayout();
@@ -243,14 +243,14 @@
             this.dtgRoleSearch.AllowUserToResizeRows = false;
             this.dtgRoleSearch.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.dtgRoleSearch.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle29.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle29.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle29.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle29.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgRoleSearch.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgRoleSearch.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dtgRoleSearch.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgRoleSearch.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colRoleName,
@@ -258,29 +258,66 @@
             this.colIsAnd,
             this.colIsVisible,
             this.colRoleId});
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle30.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle30.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle30.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle30.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtgRoleSearch.DefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgRoleSearch.DefaultCellStyle = dataGridViewCellStyle2;
             this.dtgRoleSearch.GridColor = System.Drawing.SystemColors.ControlLight;
             this.dtgRoleSearch.Location = new System.Drawing.Point(8, 36);
             this.dtgRoleSearch.MultiSelect = false;
             this.dtgRoleSearch.Name = "dtgRoleSearch";
-            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle31.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle31.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle31.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle31.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle31.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle31.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgRoleSearch.RowHeadersDefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgRoleSearch.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dtgRoleSearch.RowHeadersVisible = false;
             this.dtgRoleSearch.Size = new System.Drawing.Size(364, 131);
             this.dtgRoleSearch.TabIndex = 17;
+            // 
+            // colRoleName
+            // 
+            this.colRoleName.DataPropertyName = "RoleName";
+            this.colRoleName.HeaderText = "";
+            this.colRoleName.Name = "colRoleName";
+            this.colRoleName.ReadOnly = true;
+            // 
+            // colValue
+            // 
+            this.colValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colValue.DataPropertyName = "Value";
+            this.colValue.HeaderText = "";
+            this.colValue.Name = "colValue";
+            // 
+            // colIsAnd
+            // 
+            this.colIsAnd.DataPropertyName = "IsAnd";
+            this.colIsAnd.HeaderText = "AND";
+            this.colIsAnd.Name = "colIsAnd";
+            this.colIsAnd.Width = 40;
+            // 
+            // colIsVisible
+            // 
+            this.colIsVisible.DataPropertyName = "IsVisible";
+            this.colIsVisible.HeaderText = "IsVisible";
+            this.colIsVisible.Name = "colIsVisible";
+            this.colIsVisible.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colIsVisible.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colIsVisible.Visible = false;
+            // 
+            // colRoleId
+            // 
+            this.colRoleId.DataPropertyName = "RoleId";
+            this.colRoleId.HeaderText = "";
+            this.colRoleId.Name = "colRoleId";
+            this.colRoleId.Visible = false;
             // 
             // btnClearResult
             // 
@@ -353,14 +390,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dtgResult.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle32.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle32.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle32.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle32.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dtgResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colCheck,
@@ -374,25 +411,25 @@
             this.colHeight,
             this.colSecureLevel,
             this.colSaveDate});
-            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle34.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle34.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle34.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle34.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle34.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle34.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtgResult.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgResult.DefaultCellStyle = dataGridViewCellStyle6;
             this.dtgResult.Location = new System.Drawing.Point(3, 212);
             this.dtgResult.MultiSelect = false;
             this.dtgResult.Name = "dtgResult";
-            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle35.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle35.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle35.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle35.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle35.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle35.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dtgResult.Size = new System.Drawing.Size(804, 292);
             this.dtgResult.TabIndex = 28;
             this.dtgResult.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dtgResult_ColumnHeaderMouseClick);
@@ -492,8 +529,8 @@
             // colSaveDate
             // 
             this.colSaveDate.DataPropertyName = "SaveDate";
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colSaveDate.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colSaveDate.DefaultCellStyle = dataGridViewCellStyle5;
             this.colSaveDate.HeaderText = "年月日_SaveDate";
             this.colSaveDate.Name = "colSaveDate";
             this.colSaveDate.ReadOnly = true;
@@ -505,48 +542,11 @@
             // 
             this.lblRowTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblRowTotal.AutoSize = true;
-            this.lblRowTotal.Location = new System.Drawing.Point(8, 508);
+            this.lblRowTotal.Location = new System.Drawing.Point(2, 508);
             this.lblRowTotal.Name = "lblRowTotal";
             this.lblRowTotal.Size = new System.Drawing.Size(16, 13);
             this.lblRowTotal.TabIndex = 30;
             this.lblRowTotal.Text = "...";
-            // 
-            // colRoleName
-            // 
-            this.colRoleName.DataPropertyName = "RoleName";
-            this.colRoleName.HeaderText = "";
-            this.colRoleName.Name = "colRoleName";
-            this.colRoleName.ReadOnly = true;
-            // 
-            // colValue
-            // 
-            this.colValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colValue.DataPropertyName = "Value";
-            this.colValue.HeaderText = "";
-            this.colValue.Name = "colValue";
-            // 
-            // colIsAnd
-            // 
-            this.colIsAnd.DataPropertyName = "IsAnd";
-            this.colIsAnd.HeaderText = "AND";
-            this.colIsAnd.Name = "colIsAnd";
-            this.colIsAnd.Width = 40;
-            // 
-            // colIsVisible
-            // 
-            this.colIsVisible.DataPropertyName = "IsVisible";
-            this.colIsVisible.HeaderText = "IsVisible";
-            this.colIsVisible.Name = "colIsVisible";
-            this.colIsVisible.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colIsVisible.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colIsVisible.Visible = false;
-            // 
-            // colRoleId
-            // 
-            this.colRoleId.DataPropertyName = "RoleId";
-            this.colRoleId.HeaderText = "";
-            this.colRoleId.Name = "colRoleId";
-            this.colRoleId.Visible = false;
             // 
             // ucPaging
             // 

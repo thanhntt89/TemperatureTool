@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -12,11 +11,6 @@ namespace TemperatureTool.UC
         public UCRoleExport()
         {
             InitializeComponent();
-        }
-
-        private void UCRoleExport_Load(object sender, EventArgs e)
-        {
-
         }
 
         public void CreateRoles(RolesCollection rolesCollection)
@@ -50,7 +44,7 @@ namespace TemperatureTool.UC
                 check.Text = role.RoleName;
                 check.Location = new Point(x, y);
                 this.Controls.Add(check);
-
+                //Next X position
                 x += (max_with + 14);
             }
         }

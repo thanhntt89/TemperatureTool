@@ -9,6 +9,13 @@ namespace TemperatureTool.Utilities
 {
     public static class ClassUtils
     {
+        public static Dictionary<string, object> GetProps<T>(T obj)
+        {
+            return typeof(T).GetProperties()
+                .Select(x => Tuple.Create(x.Name, x.GetValue(obj)))
+                .Where(x => x.Item2 != null && !string.IsNullOrWhiteSpace(x.Item2.ToString())).ToDictionary(x => x.Item1, x => x.Item2);
+        }
+
         /// <summary>
         /// Get description of property
         /// Ex: var des = ClassUtils.GetPropertyDescription<Object>(propertyName);
@@ -78,8 +85,7 @@ namespace TemperatureTool.Utilities
                 attributesCollection.Add(new PropertyAttributes()
                 {
                     Name = pro,
-                    Description = GetPropertyDescription(type, pro),
-                    IsVisible = true
+                    Description = GetPropertyDescription(type, pro)
                 });
             }
             return attributesCollection;
@@ -114,16 +120,6 @@ namespace TemperatureTool.Utilities
             return this.properties.Where(r => r.Name.Equals(propertyName)).FirstOrDefault();
         }
 
-        public void SetInVisibleHeader(string[] inVisibleHeaders)
-        {
-            this.properties.Where(r => inVisibleHeaders.Contains(r.Name)).Select(r => r.IsVisible = false).ToList();
-        }
-
-        public void ResetVisibleHeader()
-        {
-            this.properties.Select(r => r.IsVisible = true).ToList();
-        }
-
         public List<PropertyAttributes> GetPropertyAttributes(string[] headerName)
         {
             return this.properties.Where(r => headerName.Contains(r.Name)).ToList();
@@ -134,6 +130,5 @@ namespace TemperatureTool.Utilities
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public bool IsVisible { get; set; }
     }
 }

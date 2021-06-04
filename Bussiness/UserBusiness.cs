@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using TemperatureTool.ApiClients.Actions;
-using TemperatureTool.ApiClients.Utilitiess;
 using TemperatureTool.Models;
 using static TemperatureTool.ApiClients.Actions.LoginActions;
 using static TemperatureTool.ApiClients.Actions.UserActions;
 using Role = TemperatureTool.Models.Role;
+using TemperatureTool.Utilitiess;
 
 namespace TemperatureTool.Bussiness
 {
@@ -132,7 +131,7 @@ namespace TemperatureTool.Bussiness
                     response.Status = "OK";
                     response.AdminFlg = 1;
                     response.UserId = AdminId;
-                    response.Roles = Roles.GeteRolesDefault();
+                    response.Roles = LoginActions.RolesCollection.GeteRolesDefault();
                 }
                 else
                 {
@@ -309,7 +308,7 @@ namespace TemperatureTool.Bussiness
 
         public static void Save()
         {
-            Utils.SerializeObjectToBinary<List<UserInfo>>(Users, Constants.UserDataPath);
+            FilesUtils.SerializeObjectToBinary<List<UserInfo>>(Users, Constants.UserDataPath);
         }
     }
 }

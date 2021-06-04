@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TemperatureTool.Models;
 
 namespace TemperatureTool.ApiClients.Actions
@@ -35,27 +36,27 @@ namespace TemperatureTool.ApiClients.Actions
         public class SearchClientsRequest
         {
             [JsonProperty("name")]
-            public string Name { get; set; }
+            public string name { get; set; }
             [JsonProperty("birth")]
-            public string DoB { get; set; }
+            public string birth { get; set; }
             [JsonProperty("postno")]
-            public string PostNo { get; set; }
+            public string postno { get; set; }
             [JsonProperty("email")]
-            public string Email { get; set; }
+            public string email { get; set; }
             [JsonProperty("sn")]
-            public string SN { get; set; }
+            public string sn { get; set; }
             [JsonProperty("current_page")]
-            public int CurrentPage { get; set; }
+            public int current_page { get; set; }
             [JsonProperty("filter_name")]
-            public int FilterName { get; set; }
+            public int? filter_name { get; set; }
             [JsonProperty("filter_birth")]
-            public int FilterDoB { get; set; }
+            public int? filter_birth { get; set; }
             [JsonProperty("filter_postno")]
-            public int FilterPostNo { get; set; }
+            public int? filter_postno { get; set; }
             [JsonProperty("filter_email")]
-            public int FilterEmail { get; set; }
+            public int? filter_email { get; set; }
             [JsonProperty("filter_sn")]
-            public int FilterSN { get; set; }
+            public int? filter_sn { get; set; }
         }
 
         [Serializable]

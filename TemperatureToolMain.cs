@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using TemperatureTool.ApiClients;
 using TemperatureTool.ApiClients.Config;
-using TemperatureTool.ApiClients.Utilitiess;
 using TemperatureTool.Bussiness;
 using TemperatureTool.Models;
 using TemperatureTool.Users;
 using static TemperatureTool.ApiClients.Actions.LoginActions;
+using TemperatureTool.Utilitiess;
 
 namespace TemperatureTool
 {
@@ -72,11 +72,11 @@ namespace TemperatureTool
             try
             {
                 //Load UserList
-                UserBusiness.Users = Utils.DeSerializeBinaryObject<List<UserInfo>>(Constants.UserDataPath);
+                UserBusiness.Users = FilesUtils.DeSerializeBinaryObject<List<UserInfo>>(Constants.UserDataPath);
 
                 // Get config info
-                ApiConfig apiConfig = Utils.DeSerializeObject<ApiConfig>(Constants.ConfigPath);
-
+                ApiConfig apiConfig = FilesUtils.DeSerializeObject<ApiConfig>(Constants.ConfigPath);
+                //Init clients
                 ApiClient apiClient = new ApiClient(apiConfig.ApiInfos.ApiKey, apiConfig.ApiInfos.ApiSecret, apiConfig.ApiInfos.ApiUrl);
                 TemperatureSystem.iTemperatureClient = new TemperatureClient(apiClient, apiConfig.EnpointInfo);
             }

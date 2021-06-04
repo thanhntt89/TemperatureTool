@@ -46,18 +46,21 @@ namespace TemperatureTool.Models
         {
             if (_roles == null)
                 return null;
+
             var exist = _roles.Where(r => r.RoleName.Equals(roleName)).FirstOrDefault();
+
             return exist;
         }
 
-        public void UpdateRoleByRoleName(string roleName, string value, bool isAnd)
+        public bool IsNotNullOrEmpty(string fieldName)
         {
-            var exist = _roles.Where(r => r.RoleName.Equals(roleName)).FirstOrDefault();
-            if (exist != null)
-            {
-                exist.Value = value;
-                exist.IsAnd = isAnd;
-            }
+            if (_roles == null)
+                return false;
+
+            var exist = _roles.Where(r => r.RoleName.Equals(fieldName) && !string.IsNullOrWhiteSpace(r.Value)).FirstOrDefault();
+            if (exist == null)
+                return false;
+            return true;
         }
 
         public bool IsVisible(string roleName)
@@ -134,6 +137,7 @@ namespace TemperatureTool.Models
                 NotifyPropertyChanged();
             }
         }
+
         public bool IsVisible
         {
             get

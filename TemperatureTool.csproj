@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>temperature.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ChoETL, Version=1.2.1.16, Culture=neutral, PublicKeyToken=8138733ed69d3172, processorArchitecture=MSIL">
       <HintPath>packages\ChoETL.1.2.1.16\lib\net45\ChoETL.dll</HintPath>
@@ -76,10 +79,10 @@
     <Compile Include="ApiClients\Interfaces\ITemperatureClient.cs" />
     <Compile Include="ApiClients\TemperatureClient.cs" />
     <Compile Include="ApiClients\Actions\TokenDataContract.cs" />
-    <Compile Include="ApiClients\Utilitiess\DateUtil.cs" />
-    <Compile Include="ApiClients\Utilitiess\EncryptUtil.cs" />
-    <Compile Include="ApiClients\Utilitiess\EnvironmentContext.cs" />
-    <Compile Include="ApiClients\Utilitiess\ExtensionMethods.cs" />
+    <Compile Include="ApiClients\Utils\DateUtil.cs" />
+    <Compile Include="ApiClients\Utils\EncryptUtil.cs" />
+    <Compile Include="ApiClients\Utils\EnvironmentContext.cs" />
+    <Compile Include="ApiClients\Utils\ExtensionMethods.cs" />
     <Compile Include="Models\DataExport.cs" />
     <Compile Include="Models\DataExportCollection.cs" />
     <Compile Include="Models\FileExport.cs" />
@@ -92,7 +95,7 @@
     </Compile>
     <Compile Include="Utilities\ClassUtils.cs" />
     <Compile Include="Utilities\CSVUtils.cs" />
-    <Compile Include="Utilities\Utils.cs" />
+    <Compile Include="Utilities\FilesUtils.cs" />
     <Compile Include="Bussiness\UserBusiness.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Models\Client.cs" />
@@ -111,7 +114,6 @@
     <Compile Include="UCDataExtraction.Designer.cs">
       <DependentUpon>UCDataExtraction.cs</DependentUpon>
     </Compile>
-    <Compile Include="UC\PagesCollection.cs" />
     <Compile Include="UC\UCPaging.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -213,6 +215,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="temperature.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

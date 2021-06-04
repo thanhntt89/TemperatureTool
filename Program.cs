@@ -1,9 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
-using TemperatureTool.ApiClients.Utilitiess;
-using TemperatureTool.Models;
 using TemperatureTool.Utilities;
+using TemperatureTool.Utilitiess;
 
 namespace TemperatureTool
 {
@@ -16,7 +14,7 @@ namespace TemperatureTool
         static void Main()
         {           
             SystemUtils.CreateUserDefault();
-            Utils.CreateDefaultConfig(Constants.ConfigPath);
+            FilesUtils.CreateDefaultConfig(Constants.ConfigPath);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

@@ -21,12 +21,12 @@ namespace TemperatureTool.ApiClients.Config
     [Serializable]
     public class EndPointInfo
     {
-        public string Login { get; set; }
-        public string UserList { get; set; }
-        public string UserRegiester { get; set; }
-        public string UserUpdatePassword { get; set; }
-        public string UserResetPassword { get; set; }
-        public string UserDelete { get; set; }
+        public string LoginUrl { get; set; }
+        public string UsersUrl { get; set; }
+        public string UserRegiesterUrl { get; set; }
+        public string UserUpdatePasswordUrl { get; set; }
+        public string UserResetPasswordUrl { get; set; }
+        public string UserDeleteUrl { get; set; }
         public string SearchClientUrl{ get; set; }
         public string ExportClientUrl { get; set; }
         public string ExportCSVUrl { get; set; }

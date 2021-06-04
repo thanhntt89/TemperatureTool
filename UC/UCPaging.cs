@@ -27,13 +27,17 @@ namespace TemperatureTool.UC
             InitializeComponent();
         }
 
-        public void CreatePaging(int totalPages, int maxDisplay, int startIndex = 0, int currentPage = 1)
+        public void CreatePaging(int totalPages, int maxDisplay, int currentPage = 1, bool isCreateNew = false)
         {
             if (totalPages == 0)
+            {
+                txtCurrentPage.Text = "0";
+                lblTotalPages.Text = "0";
                 return;
+            }                
 
             //Reset lable if next page
-            if (panelMain.Controls.Count > 0)
+            if (!isCreateNew)
             {
                 SetPageLabel(currentPage, totalPages);
                 return;
@@ -45,6 +49,7 @@ namespace TemperatureTool.UC
             panelMain.Controls.Clear();
             buttonList.Clear();
 
+            int startIndex = 0;
             int pageIndex = 0;
             int tabIndex = btnPreviewous.TabIndex;
             maxDisplay = totalPages > maxDisplay ? maxDisplay : totalPages;
@@ -109,7 +114,7 @@ namespace TemperatureTool.UC
                 Button button = GetButtonByIndex(currentPage);
                 SetFontBold(button);
             }
-            
+
             lblTotalPages.Text = string.Format("{0}", totalPages);
 
             btnNext.TabIndex = tabIndex++;
@@ -141,7 +146,10 @@ namespace TemperatureTool.UC
             int startIndex = int.Parse(buttonList[0].Text);
             int lastIndex = int.Parse(buttonList[buttonList.Count - 1].Text);
 
-            if (count == maxDisplay && (startIndex >= 1 && lastIndex < maxDisplay) || (currentPage > startIndex && currentPage < lastIndex) || (currentPage == totalPages && startIndex != lastIndex && (startIndex == totalPages || lastIndex == totalPages)))
+            if (count == maxDisplay && (startIndex >= 1 && lastIndex < maxDisplay) ||
+                (currentPage > startIndex && currentPage < lastIndex) ||
+                (currentPage == totalPages && startIndex != lastIndex && (startIndex == totalPages ||
+                lastIndex == totalPages)))
             {
                 return;
             }
@@ -149,7 +157,7 @@ namespace TemperatureTool.UC
             if (currentPage == lastIndex && lastIndex < totalPages)
                 startIndex++;
             else if (currentPage == startIndex && startIndex > 1)
-                startIndex--;            
+                startIndex--;
             else
                 startIndex = currentPage;
 
@@ -282,9 +290,22 @@ namespace TemperatureTool.UC
 
         private void InputPageIndex()
         {
-            if (!this.IsNumeric(txtCurrentPage.Text))
+            if (!this.IsNumeric(txtCurrentPage.Text) || totalPages == 0)
+            {
                 return;
+            }
+
             currentPageIndex = int.Parse(txtCurrentPage.Text);
+
+            if (totalPages > 0 && currentPageIndex < 1)
+            {
+                MessageBox.Show("Current page smaller than 1", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCurrentPage.SelectAll();
+                txtCurrentPage.Focus();
+                txtCurrentPage.Text = "1";
+                return;
+            }
+
             if (currentPageIndex > totalPages)
             {
                 MessageBox.Show("Current page larger than total page :" + totalPages, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);

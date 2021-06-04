@@ -15,8 +15,8 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_4F2EA50DCCCE482887ADC50DF27CE8FA"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_48D10DB988E8C481635CF1AB3C854865"
+        "OwnerKey" = "8:_9FEEF12FB3244F1E9DADCC4E13FEDB5D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -51,24 +51,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_EF3064FDE40F46CABBF13F6DA1772770"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FDA381C2C7294C67820977731100D258"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E9709E8FA0822BE049FAA2A622AFE195"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_9FEEF12FB3244F1E9DADCC4E13FEDB5D"
         "MsmSig" = "8:_UNDEFINED"
@@ -83,6 +65,18 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_7564C2394BCB92D62FEBE962C4956553"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_48D10DB988E8C481635CF1AB3C854865"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E9709E8FA0822BE049FAA2A622AFE195"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -103,6 +97,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -119,6 +121,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -148,10 +166,21 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4F2EA50DCCCE482887ADC50DF27CE8FA"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_48D10DB988E8C481635CF1AB3C854865"
             {
-            "SourcePath" = "8:..\\..\\TemperatureTool\\bin\\Debug\\log.dat"
-            "TargetName" = "8:log.dat"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:ChoETL, Version=1.2.1.16, Culture=neutral, PublicKeyToken=8138733ed69d3172, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_48D10DB988E8C481635CF1AB3C854865"
+                    {
+                    "Name" = "8:ChoETL.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:ChoETL.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_FF6788DE14744580A6C1242E57DF6CC6"
             "Condition" = "8:"
@@ -165,7 +194,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5F49A5693869274B8B322DF1E703691F"
@@ -281,46 +310,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EF3064FDE40F46CABBF13F6DA1772770"
-            {
-            "SourcePath" = "8:..\\..\\TemperatureTool\\bin\\Debug\\Config.dat"
-            "TargetName" = "8:Config.dat"
-            "Tag" = "8:"
-            "Folder" = "8:_FF6788DE14744580A6C1242E57DF6CC6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FDA381C2C7294C67820977731100D258"
-            {
-            "SourcePath" = "8:..\\..\\TemperatureTool\\bin\\Debug\\t_admin.dat"
-            "TargetName" = "8:t_admin.dat"
-            "Tag" = "8:"
-            "Folder" = "8:_FF6788DE14744580A6C1242E57DF6CC6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -378,7 +367,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Watashino Admin Tool"
         "ProductCode" = "8:{D71F26E5-2A9F-4CAA-B868-701E894C19E6}"
-        "PackageCode" = "8:{CABDE399-12A1-4084-BC15-6C47BB42AF4F}"
+        "PackageCode" = "8:{56E9D7F4-9D89-45BF-B755-FA7C525417D0}"
         "UpgradeCode" = "8:{9B26D44D-A8B4-4E53-B493-5D5AE60B3FAA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -913,7 +902,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9FEEF12FB3244F1E9DADCC4E13FEDB5D"
             {
-            "SourcePath" = "8:..\\..\\TemperatureTool\\obj\\Debug\\TemperatureTool.exe"
+            "SourcePath" = "8:..\\obj\\Release\\TemperatureTool.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_FF6788DE14744580A6C1242E57DF6CC6"

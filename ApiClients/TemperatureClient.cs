@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System.Threading.Tasks;
 using TemperatureTool.ApiClients.Abstract;
-using TemperatureTool.ApiClients.Actions;
 using TemperatureTool.ApiClients.Config;
 using TemperatureTool.ApiClients.Enums;
 using TemperatureTool.ApiClients.Interfaces;
+using TemperatureTool.Utilities;
 using static TemperatureTool.ApiClients.Actions.ClientActions;
 using static TemperatureTool.ApiClients.Actions.ExportActions;
 using static TemperatureTool.ApiClients.Actions.LoginActions;
@@ -24,7 +24,7 @@ namespace TemperatureTool.ApiClients
         {
             var args = JsonConvert.SerializeObject(request);
 
-            var task = Task.Run(() => _apiClient.CallAsync<LoginResponse>(ApiMethod.POST, _endPointInfo.Login, args));
+            var task = Task.Run(() => _apiClient.CallAsync<LoginResponse>(ApiMethod.POST, _endPointInfo.LoginUrl, args));
             task.Wait();
             return task.Result;
         }
@@ -32,7 +32,7 @@ namespace TemperatureTool.ApiClients
         public UserListResponse GetTAdminUsers(UserListRequest request)
         {
             var args = JsonConvert.SerializeObject(request);
-            var task = Task.Run(() => _apiClient.CallAsync<UserListResponse>(ApiMethod.POST, _endPointInfo.UserList, args));
+            var task = Task.Run(() => _apiClient.CallAsync<UserListResponse>(ApiMethod.POST, _endPointInfo.UsersUrl, args));
             task.Wait();
             return task.Result;
         }
@@ -40,7 +40,7 @@ namespace TemperatureTool.ApiClients
         public UserDeleteResponse DeleteTAdminUser(UserDeleteRequest request)
         {
             var args = JsonConvert.SerializeObject(request);
-            var task = Task.Run(() => _apiClient.CallAsync<UserDeleteResponse>(ApiMethod.POST, _endPointInfo.UserDelete, args));
+            var task = Task.Run(() => _apiClient.CallAsync<UserDeleteResponse>(ApiMethod.POST, _endPointInfo.UserDeleteUrl, args));
             task.Wait();
             return task.Result;
         }
@@ -48,7 +48,7 @@ namespace TemperatureTool.ApiClients
         public UserRegisterResponse RegisterTAdminUser(UserRegisterRequest request)
         {
             var args = JsonConvert.SerializeObject(request);
-            var task = Task.Run(() => _apiClient.CallAsync<UserRegisterResponse>(ApiMethod.POST, _endPointInfo.UserRegiester, args));
+            var task = Task.Run(() => _apiClient.CallAsync<UserRegisterResponse>(ApiMethod.POST, _endPointInfo.UserRegiesterUrl, args));
             task.Wait();
             return task.Result;
         }
@@ -56,7 +56,7 @@ namespace TemperatureTool.ApiClients
         public UserResetPasswordResponse ResetPasswordTAdminUser(UserResetPasswordRequest request)
         {
             var args = JsonConvert.SerializeObject(request);
-            var task = Task.Run(() => _apiClient.CallAsync<UserResetPasswordResponse>(ApiMethod.POST, _endPointInfo.UserResetPassword, args));
+            var task = Task.Run(() => _apiClient.CallAsync<UserResetPasswordResponse>(ApiMethod.POST, _endPointInfo.UserResetPasswordUrl, args));
             task.Wait();
             return task.Result;
         }
@@ -64,14 +64,17 @@ namespace TemperatureTool.ApiClients
         public UserChangePasswordResponse ChangePasswordTAdminUser(UserChangePasswordRequest request)
         {
             var args = JsonConvert.SerializeObject(request);
-            var task = Task.Run(() => _apiClient.CallAsync<UserChangePasswordResponse>(ApiMethod.POST, _endPointInfo.UserUpdatePassword, args));
+            var task = Task.Run(() => _apiClient.CallAsync<UserChangePasswordResponse>(ApiMethod.POST, _endPointInfo.UserUpdatePasswordUrl, args));
             task.Wait();
             return task.Result;
         }
 
         public SearchClientsResponse SearchClients(SearchClientsRequest req)
         {
-            var args = JsonConvert.SerializeObject(req);
+            // Remove fields have value is null or empty 
+            var request = ClassUtils.GetProps<SearchClientsRequest>(req);
+            var args = JsonConvert.SerializeObject(request);
+
             var task = Task.Run(() => _apiClient.CallAsync<SearchClientsResponse>(ApiMethod.POST, _endPointInfo.SearchClientUrl, args));
             task.Wait();
             return task.Result;
@@ -96,7 +99,7 @@ namespace TemperatureTool.ApiClients
         public CountClientsResponse CountClients(CountClientsRequest req)
         {
             var args = JsonConvert.SerializeObject(req);
-            var task = Task.Run(() => _apiClient.CallAsync<CountClientsResponse>(ApiMethod.POST, _endPointInfo.UserUpdatePassword, args));
+            var task = Task.Run(() => _apiClient.CallAsync<CountClientsResponse>(ApiMethod.POST, _endPointInfo.UserUpdatePasswordUrl, args));
             task.Wait();
             return task.Result;
         }        

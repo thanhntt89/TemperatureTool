@@ -69,11 +69,13 @@
             // 
             // txtCurrentPage
             // 
+            this.txtCurrentPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
             this.txtCurrentPage.Location = new System.Drawing.Point(3, 5);
             this.txtCurrentPage.Name = "txtCurrentPage";
             this.txtCurrentPage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.txtCurrentPage.Size = new System.Drawing.Size(28, 20);
             this.txtCurrentPage.TabIndex = 3;
+            this.txtCurrentPage.Text = "1";
             this.txtCurrentPage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCurrentPage_KeyPress);
             // 
             // lblTotalPages

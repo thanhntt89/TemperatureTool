@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 using TemperatureTool.ApiClients.Abstract;
 using TemperatureTool.ApiClients.Enums;
 using TemperatureTool.ApiClients.Interfaces;
-using TemperatureTool.ApiClients.Utilitiess;
+using TemperatureTool.Utilitiess;
+using TemperatureTool.ApiClients.Utils;
 
 namespace TemperatureTool.ApiClients
 {
@@ -22,7 +23,7 @@ namespace TemperatureTool.ApiClients
 
         public async Task<T> CallAsync<T>(ApiMethod apiMethod, string endPoint, string body = null, string parameters = null)
         {
-            var request = new HttpRequestMessage(Utils.CreateHttpMethod(apiMethod.ToString()), endPoint);
+            var request = new HttpRequestMessage(CreateHttpMethod(apiMethod.ToString()), endPoint);
 
             if (!string.IsNullOrWhiteSpace(CurrentToken))
             {
@@ -37,7 +38,7 @@ namespace TemperatureTool.ApiClients
             using (var stringContent = new StringContent(body, Encoding.UTF8, "application/json"))
             {
                 request.Content = stringContent;
-                response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+                response = await _httpClient.SendAsync(request).ConfigureAwait(true);
             }
 
             if (response.IsSuccessStatusCode)
@@ -46,7 +47,7 @@ namespace TemperatureTool.ApiClients
                 response.EnsureSuccessStatusCode();
 
                 // Get the result
-                var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var result = await response.Content.ReadAsStringAsync().ConfigureAwait(true);
 
                 // Serialize and return result
                 return JsonConvert.DeserializeObject<T>(result);
@@ -59,7 +60,7 @@ namespace TemperatureTool.ApiClients
             }
 
             // Get te error code and message
-            var e = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var e = await response.Content.ReadAsStringAsync().ConfigureAwait(true);
 
             // Error Values
             var eCode = 0;

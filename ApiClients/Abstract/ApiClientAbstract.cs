@@ -3,9 +3,12 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
-using TemperatureTool.ApiClients.Utilitiess;
-using TemperatureTool.ApiClients.UtilsUtilitiess;
 using static TemperatureTool.ApiClients.TokenDataContract;
+using TemperatureTool.ApiClients.Utils;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace TemperatureTool.ApiClients.Abstract
 {
@@ -51,14 +54,13 @@ namespace TemperatureTool.ApiClients.Abstract
 
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri(_apiUrl)
+                BaseAddress = new Uri(_apiUrl)                
             };
-
+            _httpClient.Timeout = TimeSpan.FromMinutes(15);
             ConfigureHttpClient();
 
             EmvironmentContext.PDS_URL_RELEASE = apiUrl;
             //  EmvironmentContext.PDS_API_KEY_RELEASE = apiKey;
-
             //CurrentToken = GetToken();
         }
 
@@ -71,7 +73,6 @@ namespace TemperatureTool.ApiClients.Abstract
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
-
 
         /// <summary>
         /// Init header
@@ -221,5 +222,67 @@ namespace TemperatureTool.ApiClients.Abstract
             }
         }
 
+        public static HttpMethod CreateHttpMethod(string method)
+        {
+            switch (method.ToUpper())
+            {
+                case "DELETE":
+                    return HttpMethod.Delete;
+                case "POST":
+                    return HttpMethod.Post;
+                case "PUT":
+                    return HttpMethod.Put;
+                case "GET":
+                    return HttpMethod.Get;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public static HttpContent CreateHttpContent(object content)
+        {
+            HttpContent httpContent = null;
+
+            if (content != null)
+            {
+                var ms = new MemoryStream();
+                SerializeJsonIntoStream(content, ms);
+                ms.Seek(0, SeekOrigin.Begin);
+                httpContent = new StreamContent(ms);
+                httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            }
+
+            return httpContent;
+        }
+
+        private static void SerializeJsonIntoStream(object value, Stream stream)
+        {
+            using (var sw = new StreamWriter(stream, new UTF8Encoding(false), 1024, true))
+            using (var jtw = new JsonTextWriter(sw) { Formatting = Formatting.None })
+            {
+                var js = new JsonSerializer();
+                js.Serialize(jtw, value);
+                jtw.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Gets a HMACSHA256 signature based on the API Secret.
+        /// </summary>
+        /// <param name="apiSecret">Api secret used to generate the signature.</param>
+        /// <param name="message">Message to encode.</param>
+        /// <returns></returns>
+        public static string GenerateSignature(string apiSecret, string message)
+        {
+            var key = Encoding.Default.GetBytes(apiSecret);
+            string stringHash;
+            using (var hmac = new HMACSHA256(key))
+            {
+                var hash = hmac.ComputeHash(Encoding.Default.GetBytes(message));
+                stringHash = Convert.ToBase64String(hash).TrimEnd('=');
+            }
+
+            return stringHash;
+        }
     }
 }

@@ -37,8 +37,6 @@ namespace TemperatureTool
             ucPaging.PageChangedSize += ResizePagin;
             ucPaging.PageClick += PageClicked;
             dtgResult.DataSource = bindingSource;
-
-          //  ucPaging.CreatePaging(100, 10, 0, CurrentPageIndex);
         }
 
         private void DisplayColumn()
@@ -76,13 +74,13 @@ namespace TemperatureTool
         private void btnSearching_Click(object sender, EventArgs e)
         {
             CurrentPageIndex = 1;
-            
+
             SaveSearchingHistories();
 
-            Searching(CurrentPageIndex);
+            Searching(CurrentPageIndex, true);
 
             // Sort Id column
-            clientCollection.Sort(dtgResult.Columns[colId.Name].DataPropertyName, SortOrder.Ascending);           
+            clientCollection.Sort(dtgResult.Columns[colId.Name].DataPropertyName, SortOrder.Ascending);
         }
 
         private void SaveSearchingHistories()
@@ -141,23 +139,23 @@ namespace TemperatureTool
             }
         }
 
-        private void Searching(int pageIndex)
+        private void Searching(int pageIndex, bool isCreateNew = false)
         {
             try
             {
                 SearchClientsRequest req = new SearchClientsRequest()
                 {
-                    CurrentPage = pageIndex,
-                    DoB = rolesCollection.IsVisible(Constants.RoleSearchDoB) ? rolesCollection.GetRole(Constants.RoleSearchDoB).Value : string.Empty,
-                    FilterDoB = rolesCollection.GetRole(Constants.RoleSearchDoB).IsAnd ? 1 : 0,//1:AND 0:OR -1:Not used condition
-                    Email = rolesCollection.IsVisible(Constants.RoleSearchEmail) ? rolesCollection.GetRole(Constants.RoleSearchEmail).Value : string.Empty,
-                    FilterEmail = rolesCollection.GetRole(Constants.RoleSearchEmail).IsAnd ? 1 : 0,
-                    Name = rolesCollection.IsVisible(Constants.RoleSearchName) ? rolesCollection.GetRole(Constants.RoleSearchName).Value : string.Empty,
-                    FilterName = rolesCollection.GetRole(Constants.RoleSearchName).IsAnd ? 1 : 0,
-                    PostNo = rolesCollection.IsVisible(Constants.RoleSearchZipCode) ? rolesCollection.GetRole(Constants.RoleSearchZipCode).Value : string.Empty,
-                    FilterPostNo = rolesCollection.GetRole(Constants.RoleSearchZipCode).IsAnd ? 1 : 0,
-                    SN = rolesCollection.IsVisible(Constants.RoleSearchSandD) ? rolesCollection.GetRole(Constants.RoleSearchSandD).Value : string.Empty,
-                    FilterSN = rolesCollection.GetRole(Constants.RoleSearchSandD).IsAnd ? 1 : 0
+                    current_page = pageIndex,
+                    birth = rolesCollection.IsVisible(Constants.RoleSearchDoB) ? rolesCollection.GetRole(Constants.RoleSearchDoB).Value : string.Empty,
+                    filter_birth = rolesCollection.IsVisible(Constants.RoleSearchDoB) ? (rolesCollection.IsNotNullOrEmpty(Constants.RoleSearchDoB) ? rolesCollection.GetRole(Constants.RoleSearchDoB).IsAnd ? (int?)1 : (int?)0 : null) : null,
+                    email = rolesCollection.IsVisible(Constants.RoleSearchEmail) ? rolesCollection.GetRole(Constants.RoleSearchEmail).Value : string.Empty,
+                    filter_email = rolesCollection.IsVisible(Constants.RoleSearchEmail) ? (rolesCollection.IsNotNullOrEmpty(Constants.RoleSearchEmail) ? rolesCollection.GetRole(Constants.RoleSearchEmail).IsAnd ? (int?)1 : (int?)0 : null) : null,
+                    name = rolesCollection.IsVisible(Constants.RoleSearchName) ? rolesCollection.GetRole(Constants.RoleSearchName).Value : string.Empty,
+                    filter_name = rolesCollection.IsVisible(Constants.RoleSearchName) ? (rolesCollection.IsNotNullOrEmpty(Constants.RoleSearchName) ? rolesCollection.GetRole(Constants.RoleSearchName).IsAnd ? (int?)1 : (int?)0 : null) : null,
+                    postno = rolesCollection.IsVisible(Constants.RoleSearchZipCode) ? rolesCollection.GetRole(Constants.RoleSearchZipCode).Value : string.Empty,
+                    filter_postno = rolesCollection.IsVisible(Constants.RoleSearchZipCode) ? (rolesCollection.IsNotNullOrEmpty(Constants.RoleSearchZipCode) ? rolesCollection.GetRole(Constants.RoleSearchZipCode).IsAnd ? (int?)1 : (int?)0 : null) : null,
+                    sn = rolesCollection.IsVisible(Constants.RoleSearchSandD) ? rolesCollection.GetRole(Constants.RoleSearchSandD).Value : string.Empty,
+                    filter_sn = rolesCollection.IsVisible(Constants.RoleSearchSandD) ? (rolesCollection.IsNotNullOrEmpty(Constants.RoleSearchSandD) ? rolesCollection.GetRole(Constants.RoleSearchSandD).IsAnd ? (int?)1 : (int?)0 : null) : null,
                 };
 
                 SearchClientsResponse res = TemperatureSystem.iTemperatureClient.SearchClients(req);
@@ -166,14 +164,14 @@ namespace TemperatureTool
                 {
                     CurrentPageIndex = res.CurrentPage;
                     totalPage = res.TotalPage;
-                    ucPaging.CreatePaging(totalPage, 10, 0, CurrentPageIndex);
+                    ucPaging.CreatePaging(totalPage, 10, CurrentPageIndex, isCreateNew);
                     if (rdNew.Checked)
                         clientCollection.Clients = res.Clients;
                     else if (rdAdd.Checked)
                         clientCollection.Add(res.Clients);
 
                     bindingSource.DataSource = clientCollection.Clients;
-                    lblRowTotal.Text = string.Format("Total:{0}", clientCollection.Count);
+                    lblRowTotal.Text = string.Format("合計:{0}", clientCollection.Count);
                     checkHeader_Click(null, null);
                 }
                 else if (res.Status.Equals(Constants.ResponseStatusFails))
@@ -230,11 +228,10 @@ namespace TemperatureTool
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            
             Export();
         }
 
-        private List<string> GetSelectedFields()
+        private List<string> GetExportFields()
         {
             List<string> fields = new List<string>();
 
@@ -258,7 +255,7 @@ namespace TemperatureTool
             {
                 ExportRequest request = new ExportRequest()
                 {
-                    Fields = GetSelectedFields(),
+                    Fields = GetExportFields(),
                     FromDate = dtStartDate.Text,
                     ToDate = dtEndDate.Text,
                     Users = clientCollection.GetSelectedUsers()
@@ -276,7 +273,7 @@ namespace TemperatureTool
                 exportCollection.DataExports = response.DataExports;
                 exportBusiness.Export(exportCollection, exportInfo);
 
-                MessageBox.Show("File export successful!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("ファイルを出力しました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -287,7 +284,7 @@ namespace TemperatureTool
                     Notes = string.Format("Error:{0}", ex.Message)
                 });
 
-                MessageBox.Show(string.Format("File export fails!\nError:{0}", ex.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(string.Format("File export fails!\nError:{0}", ex.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -302,7 +299,7 @@ namespace TemperatureTool
                 return false;
             }
 
-            if (clientCollection.CountSeletedUsers == 0)
+            if (rdIndividualOutPut.Checked && clientCollection.CountSeletedUsers == 0)
             {
                 MessageBox.Show(string.Format("出力対象ユーザーを選択してください。"), "情報", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
@@ -325,14 +322,32 @@ namespace TemperatureTool
             DisplayColumn();
             CreateCheckAll();
             btnClear_Click(null, null);
+            LoadDefaultConfig();
+        }
+
+        private void LoadDefaultConfig()
+        {
+            try
+            {
+                txtFolderOutPut.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            }
+            catch (Exception ex)
+            {
+                LogUtils.WriteLog(new LogInfo()
+                {
+                    Action = "LoadDefaultConfig",
+                    UserName = Constants.LoginName,
+                    Notes = string.Format("Error:{0}", ex.Message)
+                });
+
+                MessageBox.Show(string.Format("LoadDefaultConfig fails!\nError:{0}", ex.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void PageClicked(int pageIndex)
         {
             CurrentPageIndex = pageIndex;
             Searching(CurrentPageIndex);
-
-           // ucPaging.CreatePaging(100, 10, 0, CurrentPageIndex);
         }
 
         private void LoadRoles()
@@ -349,8 +364,16 @@ namespace TemperatureTool
                 //Creare field role search
                 dtgRoleSearch.DataSource = rolesCollection.GetRoles(true);
             }
-            catch
+            catch (Exception ex)
             {
+                LogUtils.WriteLog(new LogInfo()
+                {
+                    Action = "LoadRoles",
+                    UserName = Constants.LoginName,
+                    Notes = string.Format("Error:{0}", ex.Message)
+                });
+
+                MessageBox.Show(string.Format("Load roles fails!\nError:{0}", ex.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
