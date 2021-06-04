@@ -14,8 +14,15 @@ namespace TemperatureTool.Utilities
     {
         public static bool CheckFolderExist(string folderPath)
         {
-            DirectoryInfo directory = new DirectoryInfo(folderPath);
-            return directory.Exists;
+            try
+            {
+                DirectoryInfo directory = new DirectoryInfo(folderPath);
+                return directory.Exists;
+            }
+            catch
+            {
+                return false;
+            }           
         }
 
         internal static void CreateUserDefault()

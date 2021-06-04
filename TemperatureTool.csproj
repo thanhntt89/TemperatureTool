@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdvancedDataGridView">
-      <HintPath>DataGridView\AdvancedDataGridView.dll</HintPath>
-    </Reference>
     <Reference Include="ChoETL, Version=1.2.1.16, Culture=neutral, PublicKeyToken=8138733ed69d3172, processorArchitecture=MSIL">
       <HintPath>packages\ChoETL.1.2.1.16\lib\net45\ChoETL.dll</HintPath>
     </Reference>
@@ -81,13 +78,18 @@
     <Compile Include="ApiClients\Actions\TokenDataContract.cs" />
     <Compile Include="ApiClients\Utilitiess\DateUtil.cs" />
     <Compile Include="ApiClients\Utilitiess\EncryptUtil.cs" />
-    <Compile Include="ApiClients\Utilitiess\EndPoints.cs" />
     <Compile Include="ApiClients\Utilitiess\EnvironmentContext.cs" />
-    <Compile Include="ApiClients\Utilitiess\ExportUtils.cs" />
     <Compile Include="ApiClients\Utilitiess\ExtensionMethods.cs" />
     <Compile Include="Models\DataExport.cs" />
     <Compile Include="Models\DataExportCollection.cs" />
     <Compile Include="Models\FileExport.cs" />
+    <Compile Include="Models\RolesCollection.cs" />
+    <Compile Include="UC\UCRoleExport.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UCRoleExport.Designer.cs">
+      <DependentUpon>UCRoleExport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\ClassUtils.cs" />
     <Compile Include="Utilities\CSVUtils.cs" />
     <Compile Include="Utilities\Utils.cs" />
@@ -185,6 +187,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UC\UCRoleExport.resx">
+      <DependentUpon>UCRoleExport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Users\ChangePassword.resx">
       <DependentUpon>ChangePassword.cs</DependentUpon>
     </EmbeddedResource>

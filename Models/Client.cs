@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
-using System.Reflection;
 
 namespace TemperatureTool.Models
 {
@@ -57,7 +56,7 @@ namespace TemperatureTool.Models
             set
             {
                 this._name = value;
-                NotifyPropertyChanged();
+                NotifyPropertyChanged(value);
             }
         }
 
@@ -71,7 +70,7 @@ namespace TemperatureTool.Models
             set
             {
                 this._email = value;
-                NotifyPropertyChanged();
+                NotifyPropertyChanged(value);
             }
         }
 
@@ -85,7 +84,7 @@ namespace TemperatureTool.Models
             set
             {
                 this._postNo = value;
-                NotifyPropertyChanged();
+                NotifyPropertyChanged(value);
             }
         }
         [JsonProperty("birth")]
@@ -98,7 +97,7 @@ namespace TemperatureTool.Models
             set
             {
                 this._dob = value;
-                NotifyPropertyChanged();
+                NotifyPropertyChanged(value);
             }
         }
         [JsonProperty("height")]
@@ -111,7 +110,7 @@ namespace TemperatureTool.Models
             set
             {
                 this._height = value;
-                NotifyPropertyChanged();
+                NotifyPropertyChanged(value);
             }
         }
         [JsonProperty("weight")]
@@ -124,7 +123,7 @@ namespace TemperatureTool.Models
             set
             {
                 this._weight = value;
-                NotifyPropertyChanged();
+                NotifyPropertyChanged(value);
             }
         }
         [JsonProperty("secure_level")]
@@ -137,7 +136,7 @@ namespace TemperatureTool.Models
             set
             {
                 this._secure_level = value;
-                NotifyPropertyChanged();
+                NotifyPropertyChanged(value);
             }
         }
 
@@ -151,7 +150,7 @@ namespace TemperatureTool.Models
             set
             {
                 _saveDate = value;
-                NotifyPropertyChanged();
+                NotifyPropertyChanged(value);
             }
         }
         [JsonProperty("sn")]
@@ -164,7 +163,7 @@ namespace TemperatureTool.Models
             set
             {
                 this._sn = value;
-                NotifyPropertyChanged();
+                NotifyPropertyChanged(value);
             }
         }
 

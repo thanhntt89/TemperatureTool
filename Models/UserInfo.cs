@@ -34,15 +34,8 @@ namespace TemperatureTool.Models
         public DateTime DelDate { get; set; }
         public string Pds { get; set; }
         public int Authy { get; set; }
-        public IList<Role> Roles { get; set; }
-        public IList<Role> RolesOut { get; set; }
-    }
-
-    [Serializable]
-    public class Role
-    {
-        public int RoldeId { get; set; }
-        public string RoleName { get; set; }
+        public List<Role> Roles { get; set; }
+        public List<Role> RolesOut { get; set; }
     }
 
 }

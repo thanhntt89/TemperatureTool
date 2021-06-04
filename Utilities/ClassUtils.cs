@@ -71,6 +71,7 @@ namespace TemperatureTool.Utilities
         public static PropertyAttributesCollection GetPropertiesAttributes(this Type type)
         {
             PropertyAttributesCollection attributesCollection = new PropertyAttributesCollection();
+
             List<string> pros = GetPropertyNames(type);
             foreach (string pro in pros)
             {
@@ -82,60 +83,55 @@ namespace TemperatureTool.Utilities
                 });
             }
             return attributesCollection;
-        }        
+        }
+
     }
 
     public class PropertyAttributesCollection
     {
-        private List<PropertyAttributes> attributes;
+        private List<PropertyAttributes> properties;
+
+        public List<PropertyAttributes> PropertyAttributes
+        {
+            get { return properties; }
+            set { properties = value; }
+        }
+
         public PropertyAttributesCollection()
         {
-            attributes = new List<PropertyAttributes>();
+            properties = new List<PropertyAttributes>();
         }
 
         public void Add(PropertyAttributes property)
         {
             if (GetPropertyAttributes(property.Name) != null)
                 return;
-            attributes.Add(property);
-        }
-
-        public List<PropertyAttributes> PropertyAttributes
-        {
-            get
-            {
-                return attributes;
-            }
-            set
-            {
-                attributes = value;
-            }
+            this.properties.Add(property);
         }
 
         public PropertyAttributes GetPropertyAttributes(string propertyName)
         {
-            return attributes.Where(r => r.Name.Equals(propertyName)).FirstOrDefault();
+            return this.properties.Where(r => r.Name.Equals(propertyName)).FirstOrDefault();
         }
 
         public void SetInVisibleHeader(string[] inVisibleHeaders)
         {
-            attributes.Where(r => inVisibleHeaders.Contains(r.Name)).Select(r => r.IsVisible = false).ToList();
+            this.properties.Where(r => inVisibleHeaders.Contains(r.Name)).Select(r => r.IsVisible = false).ToList();
         }
 
         public void ResetVisibleHeader()
         {
-            attributes.Select(r => r.IsVisible = true).ToList();
+            this.properties.Select(r => r.IsVisible = true).ToList();
         }
-                
 
         public List<PropertyAttributes> GetPropertyAttributes(string[] headerName)
         {
-            return attributes.Where(r => headerName.Contains(r.Name)).ToList();
+            return this.properties.Where(r => headerName.Contains(r.Name)).ToList();
         }
     }
 
     public class PropertyAttributes
-    {       
+    {
         public string Name { get; set; }
         public string Description { get; set; }
         public bool IsVisible { get; set; }

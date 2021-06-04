@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using TemperatureTool.Bussiness;
 using TemperatureTool.Models;
@@ -12,6 +13,9 @@ namespace TemperatureTool
 {
     public partial class UCDataExtraction : UserControl
     {
+        private RolesCollection rolesCollection = new RolesCollection();
+        private RolesCollection rolesOutCollection = new RolesCollection();
+
         private DataExportCollection exportCollection = new DataExportCollection();
         private ClientCollection clientCollection = new ClientCollection();
         private CheckBox checkHeader = new CheckBox();
@@ -33,15 +37,19 @@ namespace TemperatureTool
             ucPaging.PageChangedSize += ResizePagin;
             ucPaging.PageClick += PageClicked;
             dtgResult.DataSource = bindingSource;
+
+          //  ucPaging.CreatePaging(100, 10, 0, CurrentPageIndex);
         }
 
         private void DisplayColumn()
         {
-            colDoB.Visible = chkDoB.Visible;
-            colEmail.Visible = chkEmail.Visible;
-            colName.Visible = chkName.Visible;
-            colPostNo.Visible = chkZipCode.Visible;
-            colSN.Visible = chkSandN.Visible;
+            if (rolesCollection == null) return;
+
+            colDoB.Visible = rolesCollection.IsVisible(Constants.RoleSearchDoB);
+            colEmail.Visible = rolesCollection.IsVisible(Constants.RoleSearchEmail);
+            colName.Visible = rolesCollection.IsVisible(Constants.RoleSearchName);
+            colPostNo.Visible = rolesCollection.IsVisible(Constants.RoleSearchZipCode);
+            colSN.Visible = rolesCollection.IsVisible(Constants.RoleSearchSandD);
         }
 
         private void CreateCheckAll()
@@ -68,11 +76,13 @@ namespace TemperatureTool
         private void btnSearching_Click(object sender, EventArgs e)
         {
             CurrentPageIndex = 1;
+            
+            SaveSearchingHistories();
+
             Searching(CurrentPageIndex);
 
             // Sort Id column
-            clientCollection.Sort(dtgResult.Columns[colId.Name].DataPropertyName, SortOrder.Ascending);
-            SaveSearchingHistories();
+            clientCollection.Sort(dtgResult.Columns[colId.Name].DataPropertyName, SortOrder.Ascending);           
         }
 
         private void SaveSearchingHistories()
@@ -81,44 +91,20 @@ namespace TemperatureTool
             {
                 SearchFieldCollection fieldCollection = new SearchFieldCollection();
 
-                if (txtName.Visible && !string.IsNullOrWhiteSpace(txtName.Text.Trim()))
+                foreach (DataGridViewRow row in dtgRoleSearch.Rows)
+                {
+                    if (row.Cells[colValue.Name].Value == null)
+                        continue;
+
                     fieldCollection.Add(new SearchField()
                     {
-                        FieldName = lblName.Text,
-                        Value = txtName.Text,
-                        IsAnd = chkName.Checked
+                        FieldName = row.Cells[colRoleName.Name].Value.ToString(),
+                        Value = row.Cells[colValue.Name].Value.ToString(),
+                        IsAnd = (bool)row.Cells[colIsAnd.Name].Value
                     });
-                if (txtDoB.Visible && !string.IsNullOrWhiteSpace(txtDoB.Text.Trim()))
-                    fieldCollection.Add(new SearchField()
-                    {
-                        FieldName = lblDoB.Text,
-                        Value = txtDoB.Text,
-                        IsAnd = chkDoB.Checked
-                    });
-                if (txtEmail.Visible && !string.IsNullOrWhiteSpace(txtEmail.Text.Trim()))
-                    fieldCollection.Add(new SearchField()
-                    {
-                        FieldName = lblEmail.Text,
-                        Value = txtEmail.Text,
-                        IsAnd = chkEmail.Checked
-                    });
-                if (txtZipCode.Visible && !string.IsNullOrWhiteSpace(txtZipCode.Text.Trim()))
-                    fieldCollection.Add(new SearchField()
-                    {
-                        FieldName = lblZipcode.Text,
-                        Value = txtZipCode.Text,
-                        IsAnd = chkZipCode.Checked
-                    });
-                if (txtSandN.Visible && !string.IsNullOrWhiteSpace(txtSandN.Text.Trim()))
-                    fieldCollection.Add(new SearchField()
-                    {
-                        FieldName = lblSN.Text,
-                        Value = txtSandN.Text,
-                        IsAnd = chkSandN.Checked
-                    });
+                }
 
                 historiesCollection.Add(fieldCollection);
-
                 //Save to file
                 SystemUtils.SerializeObject<HistoriesCollection>(historiesCollection, Constants.SearchingHistoriesFilePath);
             }
@@ -138,20 +124,11 @@ namespace TemperatureTool
                 if (searchFieldCollection == null)
                     return;
 
-                txtName.Text = searchFieldCollection.GetField(lblName.Text).Value;
-                chkName.Checked = searchFieldCollection.GetField(lblName.Text).IsAnd;
-
-                txtDoB.Text = searchFieldCollection.GetField(lblDoB.Text).Value;
-                chkDoB.Checked = searchFieldCollection.GetField(lblDoB.Text).IsAnd;
-
-                txtEmail.Text = searchFieldCollection.GetField(lblEmail.Text).Value;
-                chkEmail.Checked = searchFieldCollection.GetField(lblEmail.Text).IsAnd;
-
-                txtZipCode.Text = searchFieldCollection.GetField(lblZipcode.Text).Value;
-                chkZipCode.Checked = searchFieldCollection.GetField(lblZipcode.Text).IsAnd;
-
-                txtSandN.Text = searchFieldCollection.GetField(lblSN.Text).Value;
-                chkSandN.Checked = searchFieldCollection.GetField(lblSN.Text).IsAnd;
+                foreach (DataGridViewRow row in dtgRoleSearch.Rows)
+                {
+                    row.Cells[colValue.Name].Value = searchFieldCollection.GetField(row.Cells[colRoleName.Name].Value.ToString()).Value;
+                    row.Cells[colIsAnd.Name].Value = searchFieldCollection.GetField(row.Cells[colRoleName.Name].Value.ToString()).IsAnd;
+                }
             }
             catch (Exception ex)
             {
@@ -171,16 +148,16 @@ namespace TemperatureTool
                 SearchClientsRequest req = new SearchClientsRequest()
                 {
                     CurrentPage = pageIndex,
-                    DoB = chkDoB.Visible ? txtDoB.Text : string.Empty,
-                    FilterDoB = chkDoB.Visible ? chkDoB.Checked ? 1 : 0 : -1,//1:AND 0:OR -1:Not used condition
-                    Email = chkEmail.Visible ? txtEmail.Text : string.Empty,
-                    FilterEmail = chkEmail.Visible ? chkEmail.Checked ? 1 : 0 : -1,
-                    Name = chkName.Visible ? txtName.Text : string.Empty,
-                    FilterName = chkName.Visible ? chkName.Checked ? 1 : 0 : -1,
-                    PostNo = chkZipCode.Visible ? txtZipCode.Text : string.Empty,
-                    FilterPostNo = chkZipCode.Visible ? chkZipCode.Checked ? 1 : 0 : -1,
-                    SN = chkSandN.Visible ? txtSandN.Text : string.Empty,
-                    FilterSN = chkSandN.Visible ? chkSandN.Checked ? 1 : 0 : -1
+                    DoB = rolesCollection.IsVisible(Constants.RoleSearchDoB) ? rolesCollection.GetRole(Constants.RoleSearchDoB).Value : string.Empty,
+                    FilterDoB = rolesCollection.GetRole(Constants.RoleSearchDoB).IsAnd ? 1 : 0,//1:AND 0:OR -1:Not used condition
+                    Email = rolesCollection.IsVisible(Constants.RoleSearchEmail) ? rolesCollection.GetRole(Constants.RoleSearchEmail).Value : string.Empty,
+                    FilterEmail = rolesCollection.GetRole(Constants.RoleSearchEmail).IsAnd ? 1 : 0,
+                    Name = rolesCollection.IsVisible(Constants.RoleSearchName) ? rolesCollection.GetRole(Constants.RoleSearchName).Value : string.Empty,
+                    FilterName = rolesCollection.GetRole(Constants.RoleSearchName).IsAnd ? 1 : 0,
+                    PostNo = rolesCollection.IsVisible(Constants.RoleSearchZipCode) ? rolesCollection.GetRole(Constants.RoleSearchZipCode).Value : string.Empty,
+                    FilterPostNo = rolesCollection.GetRole(Constants.RoleSearchZipCode).IsAnd ? 1 : 0,
+                    SN = rolesCollection.IsVisible(Constants.RoleSearchSandD) ? rolesCollection.GetRole(Constants.RoleSearchSandD).Value : string.Empty,
+                    FilterSN = rolesCollection.GetRole(Constants.RoleSearchSandD).IsAnd ? 1 : 0
                 };
 
                 SearchClientsResponse res = TemperatureSystem.iTemperatureClient.SearchClients(req);
@@ -190,7 +167,11 @@ namespace TemperatureTool
                     CurrentPageIndex = res.CurrentPage;
                     totalPage = res.TotalPage;
                     ucPaging.CreatePaging(totalPage, 10, 0, CurrentPageIndex);
-                    clientCollection.Clients = res.Clients;
+                    if (rdNew.Checked)
+                        clientCollection.Clients = res.Clients;
+                    else if (rdAdd.Checked)
+                        clientCollection.Add(res.Clients);
+
                     bindingSource.DataSource = clientCollection.Clients;
                     lblRowTotal.Text = string.Format("Total:{0}", clientCollection.Count);
                     checkHeader_Click(null, null);
@@ -217,26 +198,16 @@ namespace TemperatureTool
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            Clean();
+            CleanSearchInput();
         }
 
-        private void Clean()
+        private void CleanSearchInput()
         {
-            txtName.Text = string.Empty;
-            txtDoB.Text = string.Empty;
-            txtEmail.Text = string.Empty;
-            txtSandN.Text = string.Empty;
-            txtZipCode.Text = string.Empty;
-
-            chkDoB.Checked = false;
-            chkEmail.Checked = false;
-            chkName.Checked = false;
-            chkSandN.Checked = false;
-            chkZipCode.Checked = false;
-            lblRowTotal.Text = string.Empty;
-            dtgResult.Rows.Clear();
-            ucPaging.Clear();
-            checkHeader.Checked = false;
+            foreach (DataGridViewRow row in dtgRoleSearch.Rows)
+            {
+                row.Cells[colValue.Name].Value = null;
+                row.Cells[colIsAnd.Name].Value = false;
+            }
         }
 
         private void btnHistories_Click(object sender, EventArgs e)
@@ -259,22 +230,22 @@ namespace TemperatureTool
 
         private void btnExport_Click(object sender, EventArgs e)
         {
+            
             Export();
         }
 
         private List<string> GetSelectedFields()
         {
             List<string> fields = new List<string>();
-            if (chkNameOut.Checked)
-                fields.Add("name");
-            if (chkDoBOut.Checked)
-                fields.Add("birthday");
-            if (chkEmailOut.Checked)
-                fields.Add("email");
-            if (chkZipCodeOut.Checked)
-                fields.Add("postno");
-            if (chkSandNOut.Checked)
-                fields.Add("sn");
+
+            var fieldsChecked = ucRoleExport.GetFieldsChecked();
+            //Get all DataExport properties
+            PropertyAttributesCollection allProperties = typeof(DataExport).GetPropertiesAttributes();
+
+            fields = (from r in allProperties.PropertyAttributes
+                      join t in fieldsChecked
+                      on r.Description equals t
+                      select r.Name).ToList();
 
             return fields;
         }
@@ -302,7 +273,7 @@ namespace TemperatureTool
                 }
 
                 exportCollection.ExportFileds = request.Fields.ToArray();
-                exportCollection.DataExports = response.DataExports;                
+                exportCollection.DataExports = response.DataExports;
                 exportBusiness.Export(exportCollection, exportInfo);
 
                 MessageBox.Show("File export successful!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -343,7 +314,7 @@ namespace TemperatureTool
                 StartDate = dtStartDate.Value.ToString("yyyyMMdd"),
                 EndDate = dtEndDate.Value.ToString("yyyyMMdd"),
                 FolderPath = txtFolderOutPut.Text,
-                Suffix = rdBatchOutPut.Checked? Constants.Suffix_All: Constants.Suffix_UserId
+                Suffix = rdBatchOutPut.Checked ? Constants.Suffix_All : Constants.Suffix_UserId
             };
             return true;
         }
@@ -353,12 +324,15 @@ namespace TemperatureTool
             LoadRoles();
             DisplayColumn();
             CreateCheckAll();
+            btnClear_Click(null, null);
         }
 
         private void PageClicked(int pageIndex)
         {
             CurrentPageIndex = pageIndex;
             Searching(CurrentPageIndex);
+
+           // ucPaging.CreatePaging(100, 10, 0, CurrentPageIndex);
         }
 
         private void LoadRoles()
@@ -368,27 +342,12 @@ namespace TemperatureTool
                 return;
             try
             {
-                txtDoB.Enabled = chkDoB.Enabled = UserBusiness.CheckRoleExist(user.Roles, Constants.RoleSearchDoB);
-                lblDoB.Visible = chkDoB.Visible = txtDoB.Visible = chkDoB.Enabled;
-                txtEmail.Enabled = chkEmail.Enabled = UserBusiness.CheckRoleExist(user.Roles, Constants.RoleSearchEmail);
-                lblEmail.Visible = chkEmail.Visible = txtEmail.Visible = chkEmail.Enabled;
-                txtName.Enabled = chkName.Enabled = UserBusiness.CheckRoleExist(user.Roles, Constants.RoleSearchName);
-                lblName.Visible = txtName.Visible = chkName.Visible = chkName.Enabled;
-                txtSandN.Enabled = chkSandN.Enabled = UserBusiness.CheckRoleExist(user.Roles, Constants.RoleSearchSandD);
-                lblSN.Visible = chkSandN.Visible = txtSandN.Visible = chkSandN.Enabled;
-                txtZipCode.Enabled = chkZipCode.Enabled = UserBusiness.CheckRoleExist(user.Roles, Constants.RoleSearchZipCode);
-                lblZipcode.Visible = chkZipCode.Visible = txtZipCode.Visible = chkZipCode.Enabled;
-
-                chkDoBOut.Enabled = UserBusiness.CheckRoleExist(user.RolesOut, Constants.RoleSearchDoB);
-                chkDoBOut.Visible = chkDoBOut.Enabled;
-                chkEmailOut.Enabled = UserBusiness.CheckRoleExist(user.RolesOut, Constants.RoleSearchEmail);
-                chkEmailOut.Visible = chkEmailOut.Enabled;
-                chkNameOut.Enabled = UserBusiness.CheckRoleExist(user.RolesOut, Constants.RoleSearchName);
-                chkNameOut.Visible = chkNameOut.Enabled;
-                chkSandNOut.Enabled = UserBusiness.CheckRoleExist(user.RolesOut, Constants.RoleSearchSandD);
-                chkSandNOut.Visible = chkSandNOut.Enabled;
-                chkZipCodeOut.Enabled = UserBusiness.CheckRoleExist(user.RolesOut, Constants.RoleSearchZipCode);
-                chkZipCodeOut.Visible = chkZipCodeOut.Enabled;
+                rolesCollection.Roles = user.Roles;
+                rolesOutCollection.Roles = user.RolesOut;
+                //Create check role export
+                ucRoleExport.CreateRoles(rolesOutCollection);
+                //Creare field role search
+                dtgRoleSearch.DataSource = rolesCollection.GetRoles(true);
             }
             catch
             {
@@ -456,6 +415,14 @@ namespace TemperatureTool
         {
             Point poit = dtgResult.GetCellDisplayRectangle(colCheck.DisplayIndex, -1, true).Location;
             checkHeader.Location = new Point(poit.X + (dtgResult.Columns[colCheck.DisplayIndex].Width - checkHeader.Width) / 2, poit.Y + 2);
+        }
+
+        private void btnClearResult_Click(object sender, EventArgs e)
+        {
+            lblRowTotal.Text = string.Format("Total:{0}", 0);
+            dtgResult.Rows.Clear();
+            ucPaging.Clear();
+            checkHeader.Checked = false;
         }
     }
 }

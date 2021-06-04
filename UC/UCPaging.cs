@@ -109,9 +109,11 @@ namespace TemperatureTool.UC
                 Button button = GetButtonByIndex(currentPage);
                 SetFontBold(button);
             }
+            
+            lblTotalPages.Text = string.Format("{0}", totalPages);
 
             btnNext.TabIndex = tabIndex++;
-            this.Width = btn.Width * (maxDisplay + 3) + txtCurrentPage.Width - btn.Width / 2;
+            this.Width = btn.Width * (maxDisplay + 3) + txtCurrentPage.Width + lblTotalPages.Width + label1.Width - btn.Width / 2;
             if (PageChangedSize != null)
                 PageChangedSize();
         }
@@ -121,7 +123,7 @@ namespace TemperatureTool.UC
             txtCurrentPage.Text = string.Empty;
             panelMain.Controls.Clear();
         }
-            
+
         private int CompareInt(Button x, Button y)
         {
             int oX = int.Parse(x.Text);
@@ -131,14 +133,7 @@ namespace TemperatureTool.UC
 
         private void SetPageLabel(int currentPage, int totalPages)
         {
-            if (currentPage == 1)
-            {
-                txtCurrentPage.Text = currentPage.ToString();
-                Button button = GetButtonByIndex(currentPage);
-                SetFontBold(button);
-
-                return;
-            }
+            var count = buttonList.Where(r => r.Visible).Count();
 
             if (buttonList.Count == 0)
                 return;
@@ -146,19 +141,48 @@ namespace TemperatureTool.UC
             int startIndex = int.Parse(buttonList[0].Text);
             int lastIndex = int.Parse(buttonList[buttonList.Count - 1].Text);
 
+            if (count == maxDisplay && (startIndex >= 1 && lastIndex < maxDisplay) || (currentPage > startIndex && currentPage < lastIndex) || (currentPage == totalPages && startIndex != lastIndex && (startIndex == totalPages || lastIndex == totalPages)))
+            {
+                return;
+            }
+
             if (currentPage == lastIndex && lastIndex < totalPages)
                 startIndex++;
             else if (currentPage == startIndex && startIndex > 1)
-                startIndex--;
+                startIndex--;            
             else
-                return;
+                startIndex = currentPage;
+
+            int btnW = 33;
+
             //Set page number
             foreach (Button button in buttonList)
             {
+                button.Width = btnW;
+                //Resize
+                if (startIndex > 99)
+                    button.Width = button.Width + 5;
+
                 button.Text = string.Format("{0}", startIndex);
-                if (startIndex >= totalPages || startIndex < 0) break;
+                button.Visible = true;
+                if (startIndex > totalPages || startIndex < 0)
+                {
+                    //Invisible other page
+                    button.Visible = false;
+                }
 
                 startIndex++;
+            }
+
+            int startIndexNew = int.Parse(buttonList[0].Text);
+            int lastIndexNew = int.Parse(buttonList[buttonList.Count - 1].Text);
+
+            if (currentPage > startIndexNew || currentPage < lastIndexNew)
+            {
+                txtCurrentPage.Text = currentPage.ToString();
+                Button buttonFocus = buttonList.Where(r => r.Text.Equals(currentPage.ToString())).FirstOrDefault();
+                SetFontBold(buttonFocus);
+                buttonFocus.Focus();
             }
         }
 
@@ -169,13 +193,13 @@ namespace TemperatureTool.UC
             if (button != null)
             {
                 currentPageIndex = int.Parse(button.Text);
-
-                if (PageClick != null)
-                    PageClick(currentPageIndex);
                 txtCurrentPage.Text = button.Text;
                 // Get current tab index
                 pageTabIndex = button.TabIndex;
                 SetFontBold(button);
+
+                if (PageClick != null)
+                    PageClick(currentPageIndex);
             }
         }
 
@@ -190,6 +214,14 @@ namespace TemperatureTool.UC
             }
 
             button.Font = new Font(button.Font.Name, button.Font.Size, FontStyle.Bold);
+
+            btnPreviewous.Enabled = true;
+            if (button.Text.Equals("1"))
+                btnPreviewous.Enabled = false;
+
+            btnNext.Enabled = true;
+            if (button.Text.Equals(totalPages.ToString()))
+                btnNext.Enabled = false;
         }
 
         private void btnPreviewous_Click(object sender, EventArgs e)
@@ -199,6 +231,9 @@ namespace TemperatureTool.UC
             currentPageIndex--;
             if (currentPageIndex <= 0)
                 currentPageIndex = 1;
+
+            SetPageLabel(currentPageIndex, totalPages);
+
             FocusPageByIndex(currentPageIndex);
             Button btn = GetButtonByIndex(currentPageIndex);
             if (btn != null)
@@ -214,6 +249,8 @@ namespace TemperatureTool.UC
             if (currentPageIndex > totalPages)
                 currentPageIndex = totalPages;
 
+            SetPageLabel(currentPageIndex, totalPages);
+
             FocusPageByIndex(currentPageIndex);
             Button btn = GetButtonByIndex(currentPageIndex);
             if (btn != null)
@@ -223,12 +260,13 @@ namespace TemperatureTool.UC
         private void FocusPageByIndex(int pageIndex)
         {
             Button btn = GetButtonByIndex(pageIndex);
+            SetFontBold(btn);
             if (btn != null)
                 btn.Focus();
         }
 
         private Button GetButtonByIndex(int pageIndex)
-        {           
+        {
             return buttonList.Where(r => r.Text.Equals(string.Format("{0}", pageIndex))).FirstOrDefault();
         }
 
@@ -254,10 +292,21 @@ namespace TemperatureTool.UC
                 txtCurrentPage.Focus();
                 return;
             }
+
+            SetPageLabel(currentPageIndex, totalPages);
+
             if (PageClick != null)
                 PageClick(currentPageIndex);
 
             FocusPageByIndex(currentPageIndex);
+
+            btnPreviewous.Enabled = true;
+            if (currentPageIndex == 1)
+                btnPreviewous.Enabled = false;
+
+            btnNext.Enabled = true;
+            if (currentPageIndex == totalPages)
+                btnNext.Enabled = false;
         }
 
         private void txtCurrentPage_KeyPress(object sender, KeyPressEventArgs e)
@@ -274,6 +323,11 @@ namespace TemperatureTool.UC
             if (string.IsNullOrWhiteSpace(value))
                 return false;
             return value.All(char.IsNumber);
+        }
+
+        private void UCPaging_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

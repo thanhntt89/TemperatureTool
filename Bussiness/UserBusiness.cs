@@ -156,7 +156,7 @@ namespace TemperatureTool.Bussiness
                     {
                         userRlose.Add(new LoginActions.Role()
                         {
-                            RoldeId = item.RoldeId,
+                            RoldeId = item.RoleId,
                             RoleName = item.RoleName
                         });
                     }

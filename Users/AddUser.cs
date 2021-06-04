@@ -14,10 +14,10 @@ namespace TemperatureTool.Users
         public delegate void ReLoadUserHandle();
         public ReLoadUserHandle ReLoadUserEvent;
         private int currentUserId = -1;
-        private List<Role> roles = new List<Role>();
-        private List<Role> rolesOutPut = new List<Role>();
-        private string role = string.Empty;
-        private string roleOut = string.Empty;
+        private RolesCollection roles = new RolesCollection();
+        private RolesCollection rolesOutPut = new RolesCollection();
+        private string roleText = string.Empty;
+        private string roleOutText = string.Empty;
 
         public AddUser(int userId, string userName)
         {
@@ -49,19 +49,20 @@ namespace TemperatureTool.Users
             try
             {
                 UserInfo user = UserBusiness.GetUserById(userId);
+                roles.Roles = user.Roles;
+                rolesOutPut.Roles = user.RolesOut;
 
-                chkDoB.Checked = UserBusiness.CheckRoleExist(user.Roles, Constants.RoleSearchDoB);
-                chkEmail.Checked = UserBusiness.CheckRoleExist(user.Roles, Constants.RoleSearchEmail);
-                chkName.Checked = UserBusiness.CheckRoleExist(user.Roles, Constants.RoleSearchName);
-                chkSandN.Checked = UserBusiness.CheckRoleExist(user.Roles, Constants.RoleSearchSandD);
-                chkZipCode.Checked = UserBusiness.CheckRoleExist(user.Roles, Constants.RoleSearchZipCode);
+                chkDoB.Checked = roles.IsVisible(Constants.RoleSearchDoB);
+                chkEmail.Checked = roles.IsVisible(Constants.RoleSearchEmail);
+                chkName.Checked = roles.IsVisible(Constants.RoleSearchName);
+                chkSandN.Checked = roles.IsVisible(Constants.RoleSearchSandD);
+                chkZipCode.Checked = roles.IsVisible(Constants.RoleSearchZipCode); 
 
-
-                chkDoBOut.Checked = UserBusiness.CheckRoleExist(user.RolesOut, Constants.RoleSearchDoB);
-                chkEmailOut.Checked = UserBusiness.CheckRoleExist(user.RolesOut, Constants.RoleSearchEmail);
-                chkNameOut.Checked = UserBusiness.CheckRoleExist(user.RolesOut, Constants.RoleSearchName);
-                chkSandNOut.Checked = UserBusiness.CheckRoleExist(user.RolesOut, Constants.RoleSearchSandD);
-                chkZipCodeOut.Checked = UserBusiness.CheckRoleExist(user.RolesOut, Constants.RoleSearchZipCode);
+                chkDoBOut.Checked = rolesOutPut.IsVisible(Constants.RoleSearchDoB);
+                chkEmailOut.Checked = rolesOutPut.IsVisible(Constants.RoleSearchEmail);
+                chkNameOut.Checked = rolesOutPut.IsVisible(Constants.RoleSearchName); 
+                chkSandNOut.Checked = rolesOutPut.IsVisible(Constants.RoleSearchSandD);
+                chkZipCodeOut.Checked = rolesOutPut.IsVisible(Constants.RoleSearchZipCode);
             }
             catch (Exception ex)
             {
@@ -87,8 +88,8 @@ namespace TemperatureTool.Users
                 UserInfo user = new UserInfo()
                 {
                     UserId = currentUserId,
-                    Roles = roles,
-                    RolesOut = rolesOutPut
+                    Roles = roles.Roles,
+                    RolesOut = rolesOutPut.Roles
                 };
 
                 UserBusiness.UpdateRole(user);
@@ -97,7 +98,7 @@ namespace TemperatureTool.Users
                 {
                     Action = "UpdateUserRoles",
                     UserName = Constants.LoginName,
-                    Notes = string.Format("UserName:{0}\nRoles:{1}\nRolesOut:{2}\nSuccess!!!!", txtUserName.Text, role, roleOut)
+                    Notes = string.Format("UserName:{0}\nRoles:{1}\nRolesOut:{2}\nSuccess!!!!", txtUserName.Text, roleText, roleOutText)
                 });
 
                 this.Close();
@@ -108,7 +109,7 @@ namespace TemperatureTool.Users
                 {
                     Action = "UpdateUserRoles",
                     UserName = Constants.LoginName,
-                    Notes = string.Format("UserName:{0}\nRoles:{1}\nRolesOut:{2}\nERROR!!!!", txtUserName.Text, role, roleOut)
+                    Notes = string.Format("UserName:{0}\nRoles:{1}\nRolesOut:{2}\nERROR!!!!", txtUserName.Text, roleText, roleOutText)
                 });
             }
         }
@@ -188,91 +189,71 @@ namespace TemperatureTool.Users
 
         private void GetRoles()
         {
+            roles.Add(new Role()
+            {
+                RoleId = 1,
+                RoleName = Constants.RoleSearchName,
+                IsVisible = chkName.Checked
+            });
+            roles.Add(new Role()
+            {
+                RoleId = 2,
+                RoleName = Constants.RoleSearchDoB,
+                IsVisible = chkDoB.Checked
+            });
+            roles.Add(new Role()
+            {
+                RoleId = 3,
+                RoleName = Constants.RoleSearchZipCode,
+                IsVisible = chkZipCode.Checked
+            });
 
-            if (chkName.Checked)
+            roles.Add(new Role()
             {
-                roles.Add(new Role()
-                {
-                    RoldeId = 1,
-                    RoleName = Constants.RoleSearchName
-                });
-            }
-            if (chkDoB.Checked)
-            {
-                roles.Add(new Role()
-                {
-                    RoldeId = 2,
-                    RoleName = Constants.RoleSearchDoB
-                });
-            }
-            if (chkZipCode.Checked)
-            {
-                roles.Add(new Role()
-                {
-                    RoldeId = 3,
-                    RoleName = Constants.RoleSearchZipCode
-                });
-            }
-            if (chkEmail.Checked)
-            {
-                roles.Add(new Role()
-                {
-                    RoldeId = 4,
-                    RoleName = Constants.RoleSearchEmail
-                });
-            }
-            if (chkSandN.Checked)
-            {
-                roles.Add(new Role()
-                {
-                    RoldeId = 5,
-                    RoleName = Constants.RoleSearchSandD
-                });
-            }
+                RoleId = 4,
+                RoleName = Constants.RoleSearchEmail,
+                IsVisible = chkEmail.Checked
+            });
 
-            if (chkNameOut.Checked)
+            roles.Add(new Role()
             {
-                rolesOutPut.Add(new Role()
-                {
-                    RoldeId = 1,
-                    RoleName = Constants.RoleSearchName
-                });
-            }
-            if (chkDoBOut.Checked)
-            {
-                rolesOutPut.Add(new Role()
-                {
-                    RoldeId = 2,
-                    RoleName = Constants.RoleSearchDoB
-                });
-            }
-            if (chkZipCodeOut.Checked)
-            {
-                rolesOutPut.Add(new Role()
-                {
-                    RoldeId = 3,
-                    RoleName = Constants.RoleSearchZipCode
-                });
-            }
-            if (chkEmailOut.Checked)
-            {
-                rolesOutPut.Add(new Role()
-                {
-                    RoldeId = 4,
-                    RoleName = Constants.RoleSearchEmail
-                });
-            }
-            if (chkSandNOut.Checked)
-            {
-                rolesOutPut.Add(new Role()
-                {
-                    RoldeId = 5,
-                    RoleName = Constants.RoleSearchSandD
-                });
-            }
+                RoleId = 5,
+                RoleName = Constants.RoleSearchSandD,
+                IsVisible = chkSandN.Checked
+            });
 
-            role = string.Join(", ", roles.Select(c => c.RoleName).ToArray<string>());
-            roleOut = string.Join(", ", rolesOutPut.Select(c => c.RoleName).ToArray<string>());
+            rolesOutPut.Add(new Role()
+            {
+                RoleId = 1,
+                RoleName = Constants.RoleSearchName,
+                IsVisible = chkNameOut.Checked
+            });
+            rolesOutPut.Add(new Role()
+            {
+                RoleId = 2,
+                RoleName = Constants.RoleSearchDoB,
+                IsVisible = chkDoBOut.Checked
+            });
+            rolesOutPut.Add(new Role()
+            {
+                RoleId = 3,
+                RoleName = Constants.RoleSearchZipCode,
+                IsVisible = chkZipCodeOut.Checked
+            });
+            rolesOutPut.Add(new Role()
+            {
+                RoleId = 4,
+                RoleName = Constants.RoleSearchEmail,
+                IsVisible = chkEmailOut.Checked
+            });
+            rolesOutPut.Add(new Role()
+            {
+                RoleId = 5,
+                RoleName = Constants.RoleSearchSandD,
+                IsVisible = chkSandNOut.Checked
+            });
+            roleText = roles.GetRoleString();
+            roleOutText = rolesOutPut.GetRoleString();
         }
 
         private void AddUer()
@@ -288,8 +269,8 @@ namespace TemperatureTool.Users
                     UserName = txtUserName.Text,
                     Password = txtUserName.Text,
                     PasswordReset = 1,
-                    Roles = roles,
-                    RolesOut = rolesOutPut,
+                    Roles = roles.Roles,
+                    RolesOut = rolesOutPut.Roles,
                     UpdateDate = DateTime.Now,
                     RegDate = DateTime.Now,
                     Authy = 2
@@ -305,7 +286,7 @@ namespace TemperatureTool.Users
             {
                 Action = "AddUser",
                 UserName = Constants.LoginName,
-                Notes = string.Format("UserName:{0}\nRoles:{1}\nRolesOut:{2}\nSuccess!!!!", txtUserName.Text, role, roleOut)
+                Notes = string.Format("UserName:{0}\nRoles:{1}\nRolesOut:{2}\nSuccess!!!!", txtUserName.Text, roleText, roleOutText)
             });
 
             MessageBox.Show(string.Format("ユーザー登録が完了しました。", txtUserName.Text), Constants.INFO_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);

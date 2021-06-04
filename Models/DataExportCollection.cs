@@ -6,10 +6,9 @@ using TemperatureTool.Utilities;
 
 namespace TemperatureTool.Models
 {
-    public class DataExportCollection
+    public class DataExportCollection : List<DataExport>
     {
         private List<DataExport> _exports;
-
 
         public DataExportCollection()
         {
@@ -28,7 +27,7 @@ namespace TemperatureTool.Models
 
         public string[] ExportFileds
         {
-            get;set;
+            get; set;
         }
 
         public void SetIndex()
@@ -64,7 +63,7 @@ namespace TemperatureTool.Models
             //List<object> aa = new List<object>();
             var fields = $"{string.Join(",", columnName)}";
             //var fields = $"new ({string.Join(",", columnName)})";         
-            return _exports.Select(CreateNewStatement(fields)).ToList();            
+            return _exports.Select(CreateNewStatement(fields)).ToList();
         }
 
         public Func<DataExport, DataExport> CreateNewStatement(string fields)
@@ -77,16 +76,17 @@ namespace TemperatureTool.Models
 
             // create initializers
             var bindings = fields.Split(',').Select(o => o.Trim())
-                .Select(o => {
+                .Select(o =>
+                {
 
-            // property "Field1"
-            var mi = typeof(DataExport).GetProperty(o);
+                    // property "Field1"
+                    var mi = typeof(DataExport).GetProperty(o);
 
-            // original value "o.Field1"
-            var xOriginal = Expression.Property(xParameter, mi);
+                    // original value "o.Field1"
+                    var xOriginal = Expression.Property(xParameter, mi);
 
-            // set value "Field1 = o.Field1"
-            return Expression.Bind(mi, xOriginal);
+                    // set value "Field1 = o.Field1"
+                    return Expression.Bind(mi, xOriginal);
                 }
             );
 

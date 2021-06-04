@@ -39,6 +39,10 @@ namespace TemperatureTool.Models
             }
         }
 
+        public void Add(List<Client> clients)
+        {
+            _clients.AddRange(clients);
+        }
 
         public IList<Client> Clients
         {
@@ -54,7 +58,7 @@ namespace TemperatureTool.Models
 
         public void SetCheckStatus(bool checkStatus)
         {
-            _clients.Where(r => r.IsChecked = checkStatus).ToList();
+            _clients.Select(r => r.IsChecked = checkStatus).ToList();
         }
 
         public void Sort(string fieldName, SortOrder sortOrder)
