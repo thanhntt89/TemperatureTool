@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using TemperatureTool.Utilities;
-using TemperatureTool.Utilitiess;
 
 namespace TemperatureTool
 {
@@ -13,8 +12,8 @@ namespace TemperatureTool
         [STAThread]
         static void Main()
         {           
-            SystemUtils.CreateUserDefault();
-            FilesUtils.CreateDefaultConfig(Constants.ConfigPath);
+            SystemConfigDefault.CreateUserDefault();
+            SystemConfigDefault.CreateEndpointDefault(Constants.ConfigPath);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

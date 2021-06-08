@@ -15,7 +15,9 @@ namespace TemperatureTool.UC
 
         public void CreateRoles(RolesCollection rolesCollection)
         {
-            if (rolesCollection == null) return;
+            if (rolesCollection == null) 
+                return;
+
             this.Controls.Clear();
             int column = 3;
             int max_with = 90;

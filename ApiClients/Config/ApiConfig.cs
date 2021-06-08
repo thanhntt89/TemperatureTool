@@ -6,8 +6,6 @@ namespace TemperatureTool.ApiClients.Config
     public class ApiConfig
     {
         public ApiInfo ApiInfos { get; set; }
-
-        public EndPointInfo EnpointInfo { get; set; }
     }
 
     [Serializable]
@@ -16,6 +14,7 @@ namespace TemperatureTool.ApiClients.Config
         public string ApiKey { get; set; }
         public string ApiSecret { get; set; }
         public string ApiUrl { get; set; }
+        public EndPointInfo EnpointInfo { get; set; }
     }
 
     [Serializable]

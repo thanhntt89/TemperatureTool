@@ -1,23 +1,30 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Cryptography;
-using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using TemperatureTool.ApiClients.Config;
 
 namespace TemperatureTool.Utilitiess
 {
     public class FilesUtils
     {
+        public static bool CheckFolderExist(string folderPath)
+        {
+            try
+            {
+                DirectoryInfo directory = new DirectoryInfo(folderPath);
+                return directory.Exists;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Check data is number
         /// </summary>
@@ -29,8 +36,7 @@ namespace TemperatureTool.Utilitiess
                 return false;
             return value.All(char.IsNumber);
         }
-              
-    
+        
         /// <summary>
         /// Serializes an object.
         /// </summary>
@@ -146,43 +152,6 @@ namespace TemperatureTool.Utilitiess
                 fs.Close();
             }
         }
-
-        internal static void CreateDefaultConfig(string filePath)
-        {
-            if (File.Exists(filePath))
-                return;
-            ApiConfig apiConfig = new ApiConfig()
-            {
-                ApiInfos = new ApiInfo()
-                {
-                    ApiKey = "xxx",
-                    ApiSecret = "YXdQqqC8jaPCo9FGT7efHbZP15T14Nxn",
-                    ApiUrl = "https://s71997spa3.execute-api.ap-northeast-1.amazonaws.com/"
-                },
-                EnpointInfo = new EndPointInfo()
-                {
-                    LoginUrl = "/Prod/user/login",
-                    UsersUrl = "api/users/count",
-                    UserRegiesterUrl = "/Prod/user/register",
-                    UserUpdatePasswordUrl = "/Prod/user/updatepassword",
-                    UserResetPasswordUrl = "/Prod/user/resetpassword",
-                    UserDeleteUrl = "/Prod/user/delete",
-                    CountClientUrl = "/Prod/users/count",
-                    SearchClientUrl = "/Prod/user/list",
-                    ExportClientUrl = "/Prod/users/export",
-                    ExportCSVUrl = "/Prod/user/export"
-                }
-            };
-            try
-            {
-                SerializeObject<ApiConfig>(apiConfig, filePath);
-            }
-            catch
-            {
-
-            }
-        }
-
 
         public static void FastAutoSizeColumns(DataGridView targetGrid)
         {

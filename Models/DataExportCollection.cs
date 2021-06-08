@@ -45,7 +45,7 @@ namespace TemperatureTool.Models
             return typeof(DataExport).GetPropertyNames();
         }
 
-        public List<string> GetHeaders(string[] headerName)
+        public List<string> GetHeadersText(string[] headerName)
         {
             List<string> exportHeader = new List<string>();
 

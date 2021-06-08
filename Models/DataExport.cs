@@ -50,6 +50,8 @@ namespace TemperatureTool.Models
         public string feel_sick { get; set; }
         [Description("気分普通")]
         public string mood_norma { get; set; }
+        [Description("気分悪い")]
+        public string feel_sick2 { get; set; }
         [Description("メモ")]
         public string memo { get; set; }
         [Description("時間")]

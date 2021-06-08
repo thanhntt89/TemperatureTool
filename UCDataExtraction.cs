@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using TemperatureTool.Bussiness;
 using TemperatureTool.Models;
+using TemperatureTool.UC;
 using TemperatureTool.Utilities;
+using TemperatureTool.Utilitiess;
 using static TemperatureTool.ApiClients.Actions.ClientActions;
 using static TemperatureTool.ApiClients.Actions.ExportActions;
 
@@ -23,6 +26,8 @@ namespace TemperatureTool
         private HistoriesCollection historiesCollection = new HistoriesCollection();
 
         private int totalPage = 0;
+        private int maxDisplayPages = 5;
+
         private BindingSource bindingSource = new BindingSource();
         private int startRowIndex = 0;
 
@@ -30,6 +35,9 @@ namespace TemperatureTool
         private DataGridViewColumn preSortedColumn;
         private CSVExportBusiness exportBusiness = new CSVExportBusiness();
         private FileExport exportInfo = new FileExport();
+
+        private BackgroundWorker bgwExport;
+        private ProgresingBar progresingBar;
 
         public UCDataExtraction()
         {
@@ -104,7 +112,7 @@ namespace TemperatureTool
 
                 historiesCollection.Add(fieldCollection);
                 //Save to file
-                SystemUtils.SerializeObject<HistoriesCollection>(historiesCollection, Constants.SearchingHistoriesFilePath);
+                FilesUtils.SerializeObject<HistoriesCollection>(historiesCollection, Constants.SearchingHistoriesFilePath);
             }
             catch (Exception ex)
             {
@@ -117,7 +125,7 @@ namespace TemperatureTool
             try
             {
                 //LoadHistories
-                historiesCollection = SystemUtils.DeSerializeObject<HistoriesCollection>(Constants.SearchingHistoriesFilePath);
+                historiesCollection = FilesUtils.DeSerializeObject<HistoriesCollection>(Constants.SearchingHistoriesFilePath);
                 SearchFieldCollection searchFieldCollection = historiesCollection.GetSearchFieldCollection(Id);
                 if (searchFieldCollection == null)
                     return;
@@ -164,19 +172,21 @@ namespace TemperatureTool
                 {
                     CurrentPageIndex = res.CurrentPage;
                     totalPage = res.TotalPage;
-                    ucPaging.CreatePaging(totalPage, 10, CurrentPageIndex, isCreateNew);
+                    ucPaging.CreatePaging(totalPage, maxDisplayPages, CurrentPageIndex, isCreateNew);
                     if (rdNew.Checked)
                         clientCollection.Clients = res.Clients;
                     else if (rdAdd.Checked)
-                        clientCollection.Add(res.Clients);
+                        clientCollection.AddRanges(res.Clients);
 
                     bindingSource.DataSource = clientCollection.Clients;
+                    bindingSource.ResetBindings(true);
+
                     lblRowTotal.Text = string.Format("合計:{0}", clientCollection.Count);
                     checkHeader_Click(null, null);
                 }
                 else if (res.Status.Equals(Constants.ResponseStatusFails))
                 {
-                    MessageBox.Show(res.ErrorInfo.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(res.ErrorInfo.Message, Constants.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -231,52 +241,90 @@ namespace TemperatureTool
             Export();
         }
 
-        private List<string> GetExportFields()
+        private void ExecutingExport()
         {
-            List<string> fields = new List<string>();
-
-            var fieldsChecked = ucRoleExport.GetFieldsChecked();
-            //Get all DataExport properties
-            PropertyAttributesCollection allProperties = typeof(DataExport).GetPropertiesAttributes();
-
-            fields = (from r in allProperties.PropertyAttributes
-                      join t in fieldsChecked
-                      on r.Description equals t
-                      select r.Name).ToList();
-
-            return fields;
-        }
-
-        private void Export()
-        {
-            if (!ValidExport())
-                return;
             try
             {
-                ExportRequest request = new ExportRequest()
+                ExportRequest request = null;
+                ExportResponse response = null;               
+                //Check all
+                if (rdBatchOutPut.Checked)
                 {
-                    Fields = GetExportFields(),
-                    FromDate = dtStartDate.Text,
-                    ToDate = dtEndDate.Text,
-                    Users = clientCollection.GetSelectedUsers()
-                };
+                    Invoke(new Action(() =>
+                    {
+                        request = new ExportRequest()
+                        {
+                            Fields = GetExportFields(),
+                            FromDate = dtStartDate.Text,
+                            ToDate = dtEndDate.Text,
+                            Users = clientCollection.GetSelectedUsers
+                        };
+                    }));
 
-                ExportResponse response = TemperatureSystem.iTemperatureClient.ExportCSV(request);
+                    response = TemperatureSystem.iTemperatureClient.ExportCSV(request);
+                    if (response.DataExports.Count == 0)
+                    {
+                        ClosedProgressBar();
+                        Invoke(new Action(() =>
+                        {                           
+                            MessageBox.Show("該当データーがありません。", Constants.WARNING_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }));
 
-                if (response.DataExports.Count == 0)
-                {
-                    MessageBox.Show("該当データーがありません。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                        return;
+                    }
+
+                    exportCollection.ExportFileds = request.Fields.ToArray();
+                    exportCollection.DataExports = response.DataExports;
+                    exportBusiness.Export(exportCollection, exportInfo);                   
                 }
+                else
+                {
+                    int countCheck = 0;
 
-                exportCollection.ExportFileds = request.Fields.ToArray();
-                exportCollection.DataExports = response.DataExports;
-                exportBusiness.Export(exportCollection, exportInfo);
+                    foreach (string userId in clientCollection.GetSelectedUsers)
+                    {
+                        request = new ExportRequest()
+                        {
+                            Fields = GetExportFields(),
+                            FromDate = dtStartDate.Text,
+                            ToDate = dtEndDate.Text,
+                            Users = new List<string> { userId }
+                        };
 
-                MessageBox.Show("ファイルを出力しました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        response = TemperatureSystem.iTemperatureClient.ExportCSV(request);
+
+                        if (response.DataExports.Count == 0)
+                        {
+                            continue;
+                        }
+                        countCheck++;
+                        exportInfo.Suffix = userId;
+                        exportCollection.ExportFileds = request.Fields.ToArray();
+                        exportCollection.DataExports = response.DataExports;
+                        exportBusiness.Export(exportCollection, exportInfo);                       
+                    }
+
+                    if (countCheck == 0)
+                    {
+                        ClosedProgressBar();
+                        Invoke(new Action(() =>
+                        {                           
+                            MessageBox.Show("該当データーがありません。", Constants.WARNING_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }));
+
+                        return;
+                    }
+                }
+                ClosedProgressBar();
+                Invoke(new Action(() =>
+                {
+                    MessageBox.Show("ファイルを出力しました。", Constants.INFO_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }));
             }
             catch (Exception ex)
             {
+                ClosedProgressBar();
+
                 LogUtils.WriteLog(new LogInfo()
                 {
                     Action = "Search",
@@ -284,7 +332,80 @@ namespace TemperatureTool
                     Notes = string.Format("Error:{0}", ex.Message)
                 });
 
-                MessageBox.Show(string.Format("File export fails!\nError:{0}", ex.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Invoke(new Action(() =>
+                {
+                    MessageBox.Show(string.Format("File export fails!\nError:{0}", ex.Message), Constants.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }));
+            }
+        }
+
+        private List<string> GetExportFields()
+        {
+            List<string> fields = new List<string>();
+            Invoke(new Action(() =>
+            {
+                var fieldsChecked = ucRoleExport.GetFieldsChecked();
+                //Get all DataExport properties
+                PropertyAttributesCollection allProperties = typeof(DataExport).GetPropertiesAttributes();
+
+                fields = (from r in allProperties.PropertyAttributes
+                          join t in fieldsChecked
+                          on r.Description equals t
+                          select r.Name).ToList();
+            }));
+            return fields;
+        }
+
+        private void ShowProgressBar()
+        {
+            if (progresingBar == null)
+            {
+                progresingBar = new ProgresingBar();
+            }
+            progresingBar.ShowDialog();
+        }
+
+        private void ClosedProgressBar()
+        {
+            Invoke(new Action(() =>
+            {
+                if (progresingBar != null)
+                {
+                    progresingBar.Close();
+                    progresingBar = null;
+                }
+            }));
+        }
+
+        private void Export()
+        {
+            if (!ValidExport())
+                return;
+
+            if (bgwExport == null)
+            {
+                bgwExport = new BackgroundWorker();
+                bgwExport.RunWorkerCompleted += bgwExport_RunWorkerCompleted;
+                bgwExport.DoWork += bgwExport_DoWork;
+            }
+
+            bgwExport.RunWorkerAsync();
+            ShowProgressBar();
+        }
+
+        private void bgwExport_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ExecutingExport();
+        }
+
+        private void bgwExport_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            ClosedProgressBar();
+
+            if (bgwExport != null)
+            {
+                bgwExport.Dispose();
+                bgwExport = null;
             }
         }
 
@@ -292,16 +413,16 @@ namespace TemperatureTool
         {
             exportInfo = null;
 
-            if (!SystemUtils.CheckFolderExist(txtFolderOutPut.Text))
+            if (!FilesUtils.CheckFolderExist(txtFolderOutPut.Text))
             {
                 txtFolderOutPut.Focus();
                 MessageBox.Show(string.Format("{0}: {1} が存在しません。!", lblFolderOutput.Text, txtFolderOutPut.Text), Constants.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            if (rdIndividualOutPut.Checked && clientCollection.CountSeletedUsers == 0)
+            if (clientCollection.CountSeletedUsers == 0)
             {
-                MessageBox.Show(string.Format("出力対象ユーザーを選択してください。"), "情報", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(string.Format("出力対象ユーザーを選択してください。"), Constants.INFO_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
@@ -340,7 +461,7 @@ namespace TemperatureTool
                     Notes = string.Format("Error:{0}", ex.Message)
                 });
 
-                MessageBox.Show(string.Format("LoadDefaultConfig fails!\nError:{0}", ex.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(string.Format("LoadDefaultConfig fails!\nError:{0}", ex.Message), Constants.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -373,7 +494,7 @@ namespace TemperatureTool
                     Notes = string.Format("Error:{0}", ex.Message)
                 });
 
-                MessageBox.Show(string.Format("Load roles fails!\nError:{0}", ex.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(string.Format("Load roles fails!\nError:{0}", ex.Message), Constants.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -442,10 +563,11 @@ namespace TemperatureTool
 
         private void btnClearResult_Click(object sender, EventArgs e)
         {
-            lblRowTotal.Text = string.Format("Total:{0}", 0);
-            dtgResult.Rows.Clear();
+            clientCollection.Clear();
+            bindingSource.ResetBindings(true);
             ucPaging.Clear();
             checkHeader.Checked = false;
+            lblRowTotal.Text = string.Format("合計:{0}", clientCollection.Count);
         }
     }
 }

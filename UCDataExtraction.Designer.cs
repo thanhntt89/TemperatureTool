@@ -50,11 +50,6 @@
             this.rdBatchOutPut = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dtgRoleSearch = new System.Windows.Forms.DataGridView();
-            this.colRoleName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colIsAnd = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colIsVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colRoleId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnClearResult = new System.Windows.Forms.Button();
             this.btnHistories = new System.Windows.Forms.Button();
             this.btnClearCondition = new System.Windows.Forms.Button();
@@ -62,20 +57,25 @@
             this.rdAdd = new System.Windows.Forms.RadioButton();
             this.rdNew = new System.Windows.Forms.RadioButton();
             this.dtgResult = new System.Windows.Forms.DataGridView();
-            this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDoB = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPostNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSN = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colHeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSecureLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSaveDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblRowTotal = new System.Windows.Forms.Label();
+            this.colSaveDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSecureLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colHeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSN = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPostNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDoB = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ucPaging = new TemperatureTool.UC.UCPaging();
             this.ucRoleExport = new TemperatureTool.UC.UCRoleExport();
+            this.colRoleName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIsAnd = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colIsVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colRoleId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgRoleSearch)).BeginInit();
@@ -282,43 +282,6 @@
             this.dtgRoleSearch.Size = new System.Drawing.Size(364, 131);
             this.dtgRoleSearch.TabIndex = 17;
             // 
-            // colRoleName
-            // 
-            this.colRoleName.DataPropertyName = "RoleName";
-            this.colRoleName.HeaderText = "";
-            this.colRoleName.Name = "colRoleName";
-            this.colRoleName.ReadOnly = true;
-            // 
-            // colValue
-            // 
-            this.colValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colValue.DataPropertyName = "Value";
-            this.colValue.HeaderText = "";
-            this.colValue.Name = "colValue";
-            // 
-            // colIsAnd
-            // 
-            this.colIsAnd.DataPropertyName = "IsAnd";
-            this.colIsAnd.HeaderText = "AND";
-            this.colIsAnd.Name = "colIsAnd";
-            this.colIsAnd.Width = 40;
-            // 
-            // colIsVisible
-            // 
-            this.colIsVisible.DataPropertyName = "IsVisible";
-            this.colIsVisible.HeaderText = "IsVisible";
-            this.colIsVisible.Name = "colIsVisible";
-            this.colIsVisible.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colIsVisible.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colIsVisible.Visible = false;
-            // 
-            // colRoleId
-            // 
-            this.colRoleId.DataPropertyName = "RoleId";
-            this.colRoleId.HeaderText = "";
-            this.colRoleId.Name = "colRoleId";
-            this.colRoleId.Visible = false;
-            // 
             // btnClearResult
             // 
             this.btnClearResult.Location = new System.Drawing.Point(110, 174);
@@ -436,95 +399,15 @@
             this.dtgResult.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dtgResult_ColumnWidthChanged);
             this.dtgResult.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dtgResult_RowPostPaint);
             // 
-            // colCheck
+            // lblRowTotal
             // 
-            this.colCheck.DataPropertyName = "IsChecked";
-            this.colCheck.HeaderText = "";
-            this.colCheck.Name = "colCheck";
-            this.colCheck.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colCheck.Width = 52;
-            // 
-            // colId
-            // 
-            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colId.DataPropertyName = "Id";
-            this.colId.HeaderText = "USER ID";
-            this.colId.Name = "colId";
-            this.colId.ReadOnly = true;
-            this.colId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // colName
-            // 
-            this.colName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colName.DataPropertyName = "Name";
-            this.colName.HeaderText = "名前";
-            this.colName.Name = "colName";
-            this.colName.ReadOnly = true;
-            this.colName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // colDoB
-            // 
-            this.colDoB.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colDoB.DataPropertyName = "DoB";
-            this.colDoB.HeaderText = "年月日";
-            this.colDoB.Name = "colDoB";
-            this.colDoB.ReadOnly = true;
-            this.colDoB.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // colPostNo
-            // 
-            this.colPostNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colPostNo.DataPropertyName = "PostNo";
-            this.colPostNo.HeaderText = "郵便番号";
-            this.colPostNo.Name = "colPostNo";
-            this.colPostNo.ReadOnly = true;
-            this.colPostNo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // colEmail
-            // 
-            this.colEmail.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colEmail.DataPropertyName = "Email";
-            this.colEmail.HeaderText = "メールアドレス ";
-            this.colEmail.MinimumWidth = 120;
-            this.colEmail.Name = "colEmail";
-            this.colEmail.ReadOnly = true;
-            this.colEmail.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // colSN
-            // 
-            this.colSN.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colSN.DataPropertyName = "SN";
-            this.colSN.HeaderText = "S/N";
-            this.colSN.Name = "colSN";
-            this.colSN.ReadOnly = true;
-            this.colSN.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // colWeight
-            // 
-            this.colWeight.DataPropertyName = "Weight";
-            this.colWeight.HeaderText = "目標体重";
-            this.colWeight.Name = "colWeight";
-            this.colWeight.ReadOnly = true;
-            this.colWeight.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.colWeight.Visible = false;
-            // 
-            // colHeight
-            // 
-            this.colHeight.DataPropertyName = "Height";
-            this.colHeight.HeaderText = "身長";
-            this.colHeight.Name = "colHeight";
-            this.colHeight.ReadOnly = true;
-            this.colHeight.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.colHeight.Visible = false;
-            // 
-            // colSecureLevel
-            // 
-            this.colSecureLevel.DataPropertyName = "SecureLevel";
-            this.colSecureLevel.HeaderText = "SecureLevel";
-            this.colSecureLevel.Name = "colSecureLevel";
-            this.colSecureLevel.ReadOnly = true;
-            this.colSecureLevel.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.colSecureLevel.Visible = false;
+            this.lblRowTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblRowTotal.AutoSize = true;
+            this.lblRowTotal.Location = new System.Drawing.Point(2, 508);
+            this.lblRowTotal.Name = "lblRowTotal";
+            this.lblRowTotal.Size = new System.Drawing.Size(16, 13);
+            this.lblRowTotal.TabIndex = 30;
+            this.lblRowTotal.Text = "...";
             // 
             // colSaveDate
             // 
@@ -538,15 +421,95 @@
             this.colSaveDate.Visible = false;
             this.colSaveDate.Width = 150;
             // 
-            // lblRowTotal
+            // colSecureLevel
             // 
-            this.lblRowTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblRowTotal.AutoSize = true;
-            this.lblRowTotal.Location = new System.Drawing.Point(2, 508);
-            this.lblRowTotal.Name = "lblRowTotal";
-            this.lblRowTotal.Size = new System.Drawing.Size(16, 13);
-            this.lblRowTotal.TabIndex = 30;
-            this.lblRowTotal.Text = "...";
+            this.colSecureLevel.DataPropertyName = "SecureLevel";
+            this.colSecureLevel.HeaderText = "SecureLevel";
+            this.colSecureLevel.Name = "colSecureLevel";
+            this.colSecureLevel.ReadOnly = true;
+            this.colSecureLevel.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.colSecureLevel.Visible = false;
+            // 
+            // colHeight
+            // 
+            this.colHeight.DataPropertyName = "Height";
+            this.colHeight.HeaderText = "身長";
+            this.colHeight.Name = "colHeight";
+            this.colHeight.ReadOnly = true;
+            this.colHeight.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.colHeight.Visible = false;
+            // 
+            // colWeight
+            // 
+            this.colWeight.DataPropertyName = "Weight";
+            this.colWeight.HeaderText = "目標体重";
+            this.colWeight.Name = "colWeight";
+            this.colWeight.ReadOnly = true;
+            this.colWeight.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.colWeight.Visible = false;
+            // 
+            // colSN
+            // 
+            this.colSN.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colSN.DataPropertyName = "SN";
+            this.colSN.HeaderText = "S/N";
+            this.colSN.Name = "colSN";
+            this.colSN.ReadOnly = true;
+            this.colSN.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            // 
+            // colEmail
+            // 
+            this.colEmail.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colEmail.DataPropertyName = "Email";
+            this.colEmail.HeaderText = "メールアドレス ";
+            this.colEmail.MinimumWidth = 120;
+            this.colEmail.Name = "colEmail";
+            this.colEmail.ReadOnly = true;
+            this.colEmail.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            // 
+            // colPostNo
+            // 
+            this.colPostNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colPostNo.DataPropertyName = "PostNo";
+            this.colPostNo.HeaderText = "郵便番号";
+            this.colPostNo.Name = "colPostNo";
+            this.colPostNo.ReadOnly = true;
+            this.colPostNo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            // 
+            // colDoB
+            // 
+            this.colDoB.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colDoB.DataPropertyName = "DoB";
+            this.colDoB.HeaderText = "年月日";
+            this.colDoB.Name = "colDoB";
+            this.colDoB.ReadOnly = true;
+            this.colDoB.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            // 
+            // colName
+            // 
+            this.colName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colName.DataPropertyName = "Name";
+            this.colName.HeaderText = "名前";
+            this.colName.Name = "colName";
+            this.colName.ReadOnly = true;
+            this.colName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            // 
+            // colId
+            // 
+            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colId.DataPropertyName = "Id";
+            this.colId.HeaderText = "USER ID";
+            this.colId.Name = "colId";
+            this.colId.ReadOnly = true;
+            this.colId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            // 
+            // colCheck
+            // 
+            this.colCheck.DataPropertyName = "IsChecked";
+            this.colCheck.HeaderText = "";
+            this.colCheck.Name = "colCheck";
+            this.colCheck.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colCheck.Width = 52;
             // 
             // ucPaging
             // 
@@ -558,10 +521,52 @@
             // 
             // ucRoleExport
             // 
+            this.ucRoleExport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ucRoleExport.Location = new System.Drawing.Point(81, 76);
             this.ucRoleExport.Name = "ucRoleExport";
             this.ucRoleExport.Size = new System.Drawing.Size(325, 65);
             this.ucRoleExport.TabIndex = 28;
+            // 
+            // colRoleName
+            // 
+            this.colRoleName.DataPropertyName = "RoleName";
+            this.colRoleName.HeaderText = "";
+            this.colRoleName.Name = "colRoleName";
+            this.colRoleName.ReadOnly = true;
+            this.colRoleName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colValue
+            // 
+            this.colValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colValue.DataPropertyName = "Value";
+            this.colValue.HeaderText = "";
+            this.colValue.Name = "colValue";
+            this.colValue.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colIsAnd
+            // 
+            this.colIsAnd.DataPropertyName = "IsAnd";
+            this.colIsAnd.HeaderText = "AND";
+            this.colIsAnd.Name = "colIsAnd";
+            this.colIsAnd.Width = 40;
+            // 
+            // colIsVisible
+            // 
+            this.colIsVisible.DataPropertyName = "IsVisible";
+            this.colIsVisible.HeaderText = "IsVisible";
+            this.colIsVisible.Name = "colIsVisible";
+            this.colIsVisible.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colIsVisible.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colIsVisible.Visible = false;
+            // 
+            // colRoleId
+            // 
+            this.colRoleId.DataPropertyName = "RoleId";
+            this.colRoleId.HeaderText = "";
+            this.colRoleId.Name = "colRoleId";
+            this.colRoleId.Visible = false;
             // 
             // UCDataExtraction
             // 
@@ -612,6 +617,8 @@
         private UC.UCPaging ucPaging;
         private System.Windows.Forms.Label lblRowTotal;
         private System.Windows.Forms.Button btnClearResult;
+        private System.Windows.Forms.DataGridView dtgRoleSearch;
+        private UC.UCRoleExport ucRoleExport;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colCheck;
         private System.Windows.Forms.DataGridViewTextBoxColumn colId;
         private System.Windows.Forms.DataGridViewTextBoxColumn colName;
@@ -623,8 +630,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colHeight;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSecureLevel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSaveDate;
-        private System.Windows.Forms.DataGridView dtgRoleSearch;
-        private UC.UCRoleExport ucRoleExport;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRoleName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colValue;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colIsAnd;

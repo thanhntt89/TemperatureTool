@@ -21,27 +21,25 @@ namespace TemperatureTool.Models
             _clients = new List<Client>();
         }
 
-        public int Count
+        public int Count => this._clients.Count;
+
+        public List<string> GetSelectedUsers => _clients.Where(r => r.IsChecked).Select(r => r.Id.ToString()).ToList();
+
+
+        public int CountSeletedUsers => GetSelectedUsers.Count;
+
+        public void Clear()
         {
-            get { return this._clients.Count; }
+            if (_clients != null)
+                _clients.Clear();
         }
 
-        public List<string> GetSelectedUsers()
+        public void AddRanges(List<Client> clients)
         {
-            return _clients.Where(r => r.IsChecked).Select(r => r.Id.ToString()).ToList();
-        }
-
-        public int CountSeletedUsers
-        {
-            get
-            {
-                return GetSelectedUsers().Count;
-            }
-        }
-
-        public void Add(List<Client> clients)
-        {
-            _clients.AddRange(clients);
+            // Check not exist data            
+            var newItem = clients.Where(r => !_clients.Any(t => t.Name == r.Name)).ToList();
+            if (newItem.Count > 0)
+                _clients.AddRange(newItem);
         }
 
         public IList<Client> Clients

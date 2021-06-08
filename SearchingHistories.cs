@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using TemperatureTool.Utilities;
+using TemperatureTool.Utilitiess;
 
 namespace TemperatureTool
 {
@@ -25,7 +26,7 @@ namespace TemperatureTool
         {
             try
             {
-                historiesCollection = SystemUtils.DeSerializeObject<HistoriesCollection > (Constants.SearchingHistoriesFilePath);
+                historiesCollection = FilesUtils.DeSerializeObject<HistoriesCollection > (Constants.SearchingHistoriesFilePath);
                 historiesCollection.Sort("Id", SortOrder.Descending);
                 dtgHistories.DataSource = historiesCollection.Histories;
             }

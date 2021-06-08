@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_040C1E27F631C41A7FCBBAC638913839"
+        "OwnerKey" = "8:_9FEEF12FB3244F1E9DADCC4E13FEDB5D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_48D10DB988E8C481635CF1AB3C854865"
         "OwnerKey" = "8:_9FEEF12FB3244F1E9DADCC4E13FEDB5D"
         "MsmSig" = "8:_UNDEFINED"
@@ -53,6 +59,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_9FEEF12FB3244F1E9DADCC4E13FEDB5D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_040C1E27F631C41A7FCBBAC638913839"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -104,6 +116,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -143,6 +163,20 @@
     {
         "CustomAction"
         {
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_58F9AA8B054949489487E7B3E9D18CE9"
+            {
+            "Name" = "8:Primary output from TemperatureTool (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_9FEEF12FB3244F1E9DADCC4E13FEDB5D"
+            "FileType" = "3:2"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_6EF4118A_BFC0_42DC_8D55_00A71769E702"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
         }
         "DefaultFeature"
         {
@@ -166,6 +200,37 @@
         }
         "File"
         {
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_040C1E27F631C41A7FCBBAC638913839"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:WinFormAnimation, Version=1.6.0.4, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_040C1E27F631C41A7FCBBAC638913839"
+                    {
+                    "Name" = "8:WinFormAnimation.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:WinFormAnimation.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_FF6788DE14744580A6C1242E57DF6CC6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_48D10DB988E8C481635CF1AB3C854865"
             {
             "AssemblyRegister" = "3:1"
@@ -367,13 +432,13 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Watashino Admin Tool"
         "ProductCode" = "8:{D71F26E5-2A9F-4CAA-B868-701E894C19E6}"
-        "PackageCode" = "8:{56E9D7F4-9D89-45BF-B755-FA7C525417D0}"
+        "PackageCode" = "8:{1ED9D3D3-EA0B-4AC2-8427-48E024435A46}"
         "UpgradeCode" = "8:{9B26D44D-A8B4-4E53-B493-5D5AE60B3FAA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
-        "InstallAllUsers" = "11:FALSE"
+        "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:1.0.0"
         "Manufacturer" = "8:Default"
         "ARPHELPTELEPHONE" = "8:"

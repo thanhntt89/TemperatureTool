@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Create page number
+ * Author: jimmii88
+ * Created date: 2021-04-20
+ */
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -17,10 +22,8 @@ namespace TemperatureTool.UC
         private const string ButtonPagingPreFix = "btn_Page";
         private int currentPageIndex = 0;
         private int maxDisplay = 2;
-        private int totalPages = 100;
-        private int pageTabIndex = 0;
+        private int totalPages = 100;      
         private int startPageIndex = 0;
-        private int lastDisplayIndex = 0;
 
         public UCPaging()
         {
@@ -127,6 +130,7 @@ namespace TemperatureTool.UC
         {
             txtCurrentPage.Text = string.Empty;
             panelMain.Controls.Clear();
+            lblTotalPages.Text = string.Empty;
         }
 
         private int CompareInt(Button x, Button y)
@@ -202,8 +206,7 @@ namespace TemperatureTool.UC
             {
                 currentPageIndex = int.Parse(button.Text);
                 txtCurrentPage.Text = button.Text;
-                // Get current tab index
-                pageTabIndex = button.TabIndex;
+                // Get current tab index             
                 SetFontBold(button);
 
                 if (PageClick != null)
@@ -217,10 +220,10 @@ namespace TemperatureTool.UC
                 return;
             //Reset all           
             foreach (var btn in buttonList)
-            {
+            {               
                 btn.Font = new Font(btn.Font.Name, btn.Font.Size, FontStyle.Regular);
             }
-
+            
             button.Font = new Font(button.Font.Name, button.Font.Size, FontStyle.Bold);
 
             btnPreviewous.Enabled = true;

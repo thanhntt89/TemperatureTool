@@ -78,7 +78,7 @@ namespace TemperatureTool
                 ApiConfig apiConfig = FilesUtils.DeSerializeObject<ApiConfig>(Constants.ConfigPath);
                 //Init clients
                 ApiClient apiClient = new ApiClient(apiConfig.ApiInfos.ApiKey, apiConfig.ApiInfos.ApiSecret, apiConfig.ApiInfos.ApiUrl);
-                TemperatureSystem.iTemperatureClient = new TemperatureClient(apiClient, apiConfig.EnpointInfo);
+                TemperatureSystem.iTemperatureClient = new TemperatureClient(apiClient, apiConfig.ApiInfos.EnpointInfo);
             }
             catch (Exception ex)
             {
